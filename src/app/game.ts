@@ -15,6 +15,7 @@ export class Game {
 
     getPlayers() {
         // test
+        // another comment
         return this.players;
     }
 
