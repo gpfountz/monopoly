@@ -1,5 +1,6 @@
 import { BoardPosition } from "app/board-positions.enum";
 import { PlayerToken } from "app/player-tokens.enum";
+import { Dice } from "app/dice";
 
 export class Player {
     private token: PlayerToken;
@@ -11,9 +12,9 @@ export class Player {
         this.reset();
     }
 
-    move(count) {
+    move(dice: Dice) {
         this.moveCount++;
-        return (this.position + count) % 40;    
+        return (this.position + dice.roll()) % 40;    
     }
 
     getMoveCount() {
@@ -32,18 +33,9 @@ export class Player {
         this.position = position;
     }
 
-    rollDice() {
-        let min :Number = 1;
-        let max :Number = 6;
-        return this.getRandomInt(min, max) + this.getRandomInt(min, max);
-    }
-
     reset() {
         this.position = BoardPosition.Go;
         this.moveCount = 0;
     }
 
-    private getRandomInt(min, max) {
-        return Math.floor(Math.random() * (max - min + 1)) + min;
-    }
 }

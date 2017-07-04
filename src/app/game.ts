@@ -1,9 +1,11 @@
 import { Player } from "app/player";
+import { RealDice } from "app/real-dice";
+import { Dice } from "app/dice";
 
 export class Game {
     private players: Player[];
     public static PLAYER_MIN_MAX_ERROR: string = 'must have 2 to 8 players to play Monopoly';
-
+    private dice: Dice = new RealDice();
 
     constructor(players: Player[]) {
         if (players.length < 2 || players.length > 8) {
@@ -20,7 +22,7 @@ export class Game {
     playRounds(count: number) {
         for (let index = 0; index < count; index++) {
             for(let player of this.players) {
-                player.move(player.rollDice());
+                player.move(this.dice);
             }
         }
     }
