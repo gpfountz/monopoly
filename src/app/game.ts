@@ -1,13 +1,16 @@
+import { Board } from './board';
 import { Player } from "app/player";
 import { RealDice } from "app/real-dice";
 import { Dice } from "app/dice";
 
 export class Game {
+    private board: Board;
     private players: Player[];
     public static PLAYER_MIN_MAX_ERROR: string = 'must have 2 to 8 players to play Monopoly';
     private dice: Dice = new RealDice();
 
     constructor(players: Player[]) {
+        this.board = new Board();
         if (players.length < 2 || players.length > 8) {
             throw new Error(Game.PLAYER_MIN_MAX_ERROR);
         }

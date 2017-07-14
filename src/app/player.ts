@@ -1,3 +1,4 @@
+import { Board } from './board';
 import { BoardPosition } from "app/board-positions.enum";
 import { PlayerToken } from "app/player-tokens.enum";
 import { Dice } from "app/dice";
@@ -19,20 +20,18 @@ export class Player {
         this.balance -= amount;
     }
 
-    move(dice: Dice) {
+    move(board: Board, dice: Dice) {
         this.moveCount++;
         let previousPosition = this.position;
+        let moveCount: number = dice.roll();
+        for (let i = 0; i < moveCount - 1; i++) {
+            // skipOver
+            board.getBoardSpace((previousPosition + i) % 40).skipOver(this);
+        }
+        // landOn
         this.position = (this.position + dice.roll()) % 40;
-        if (this.position < previousPosition) {
-            this.increaseBalance(200);
-        }
-        if (this.position == BoardPosition.IncomeTax) {
-            let decreaseBalance = Math.min(200, this.balance * .1);
-            this.decreaseBalance(decreaseBalance);
-        }
-        if (this.position == BoardPosition.LuxuryTax) {
-            this.decreaseBalance(75);
-        }
+        board.getBoardSpace(this.position).landOn(this);
+
         return this.position;
     }
 

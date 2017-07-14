@@ -4,9 +4,11 @@ import { PlayerToken } from "app/player-tokens.enum";
 import { FakeDice } from "app/fake-dice";
 
 describe('Player Movements', () => {
+    let board: Board;
     let player :Player;
 
     beforeAll(() => {
+        board = new Board();
         player = new Player(PlayerToken.topHat);
     });
 
