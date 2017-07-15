@@ -4,7 +4,7 @@ import { Player } from './../player';
 export interface BoardSpace {
     position: BoardPosition;
 
-    skipOver(player: Player);
+    moveOver(player: Player);
 
     landOn(player: Player);
 }

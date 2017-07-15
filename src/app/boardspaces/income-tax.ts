@@ -5,7 +5,7 @@ import { BoardSpace } from './board-space';
 export class IncomeTax implements BoardSpace{
     position: BoardPosition = BoardPosition.IncomeTax;
 
-    public skipOver(player: Player) {
+    public moveOver(player: Player) {
     }
 
     public landOn(player: Player) {

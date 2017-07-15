@@ -5,7 +5,7 @@ import { BoardSpace } from './board-space';
 export class DefaultSpace implements BoardSpace {
     position: BoardPosition = undefined;
 
-    public skipOver(player: Player) {
+    public moveOver(player: Player) {
     }
 
     public landOn(player: Player) {

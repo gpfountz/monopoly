@@ -5,7 +5,7 @@ import { BoardSpace } from './board-space';
 export class Go implements BoardSpace {
     position: BoardPosition = BoardPosition.Go;
 
-    public skipOver(player: Player) {
+    public moveOver(player: Player) {
         player.increaseBalance(200);
     };
 

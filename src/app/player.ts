@@ -25,7 +25,7 @@ export class Player {
         let moveCount: number = dice.roll();
         for (let i = 1; i < moveCount; i++) {
             // skipOver
-            board.getBoardSpace((previousPosition + i) % 40).skipOver(this);
+            board.getBoardSpace((previousPosition + i) % 40).moveOver(this);
         }
         // landOn
         this.position = (this.position + moveCount) % 40;
