@@ -4,12 +4,14 @@ import { IncomeTax } from './boardspaces/income-tax';
 import { Go } from './boardspaces/go';
 import { BoardSpace } from './boardspaces/board-space';
 import { BoardPosition } from 'app/board-positions.enum';
+import { MediteranianAve } from "app/boardspaces/mediteranian-ave";
 
 export class Board {
     private boardSpaceMap: Map<BoardPosition, BoardSpace> = new Map<BoardPosition, BoardSpace>();
 
     constructor() {
         this.boardSpaceMap.set(BoardPosition.Go, new Go());
+        this.boardSpaceMap.set(BoardPosition.MediteranianAve, new MediteranianAve());
         this.boardSpaceMap.set(BoardPosition.IncomeTax, new IncomeTax());
         this.boardSpaceMap.set(BoardPosition.LuxuryTax, new LuxuryTax());
     }

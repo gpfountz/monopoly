@@ -6,7 +6,7 @@ export class LuxuryTax implements BoardSpace {
 
     position: BoardPosition = BoardPosition.LuxuryTax;
 
-    public moveOver(player: Player) {
+    public passOver(player: Player) {
     }
 
     public landOn(player: Player) {
