@@ -37,7 +37,7 @@ export class Game {
         return undefined;
     }
 
-    // players order of play, first player is 0
+    // player's order of play, first player is 0
     public getPlayerOrder(playerToken: PlayerToken): number {
         for (let i = 0; i < this.players.length; i++) {
             if (this.players[i].getToken() === playerToken) {
