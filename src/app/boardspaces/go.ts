@@ -3,13 +3,13 @@ import { Player } from './../player';
 import { BoardSpace } from './board-space';
 
 export class Go implements BoardSpace {
-    token: BoardPosition = BoardPosition.Go;
+    position: BoardPosition = BoardPosition.Go;
 
-    skipOver(player: Player) {
+    public skipOver(player: Player) {
         player.increaseBalance(200);
     };
 
-    landOn(player: Player) {
+    public landOn(player: Player) {
         player.increaseBalance(200);
     }
 }

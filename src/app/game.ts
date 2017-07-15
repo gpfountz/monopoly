@@ -2,31 +2,60 @@ import { Board } from './board';
 import { Player } from "app/player";
 import { RealDice } from "app/real-dice";
 import { Dice } from "app/dice";
+import { PlayerToken } from "app/player-tokens.enum";
 
 export class Game {
+    public static PLAYER_MIN_MAX_ERROR: string = 'must have 2 to 8 players to play Monopoly';
+
     private board: Board;
     private players: Player[];
-    public static PLAYER_MIN_MAX_ERROR: string = 'must have 2 to 8 players to play Monopoly';
-    private dice: Dice = new RealDice();
+    private dice: Dice;
 
-    constructor(players: Player[]) {
-        this.board = new Board();
-        if (players.length < 2 || players.length > 8) {
+    constructor(playerTokens: PlayerToken[]) {
+        if (playerTokens.length < 2 || playerTokens.length > 8) {
             throw new Error(Game.PLAYER_MIN_MAX_ERROR);
         }
-        this.players = players;
+        this.board = new Board();
+        this.dice = new RealDice();
+        this.players = new Array();
+        for (let playerToken of playerTokens) {
+            this.players.push(new Player(playerToken));
+        }
         this.shuffle(this.players);
     }
 
-    getPlayers() {
-        return this.players;
+    public getNumberPlayers(): number {
+        return this.players.length;
     }
 
-    playRounds(count: number) {
-        for (let index = 0; index < count; index++) {
-            for(let player of this.players) {
-                player.move(this.dice);
+    public getPlayer(playerToken: PlayerToken) {
+        for (let player of this.players) {
+            if (player.getToken() === playerToken) {
+                return player;
             }
+        }
+        return undefined;
+    }
+
+    // players order of play, first player is 0
+    public getPlayerOrder(playerToken: PlayerToken): number {
+        for (let i = 0; i < this.players.length; i++) {
+            if (this.players[i].getToken() === playerToken) {
+                return i;
+            }
+        }
+        return -1;
+    }
+
+    public playRounds(count: number) {
+        for (let index = 0; index < count; index++) {
+            this.playRound();
+        }
+    }
+
+    public playRound() {
+        for(let player of this.players) {
+            player.move(this.board, this.dice);
         }
     }
 

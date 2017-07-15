@@ -6,10 +6,10 @@ export class LuxuryTax implements BoardSpace {
 
     position: BoardPosition = BoardPosition.LuxuryTax;
 
-    skipOver(player: Player) {
+    public skipOver(player: Player) {
     }
 
-    landOn(player: Player) {
+    public landOn(player: Player) {
         player.decreaseBalance(75);
     }
 }

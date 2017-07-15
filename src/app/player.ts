@@ -13,67 +13,70 @@ export class Player {
     constructor(token: PlayerToken) {
         this.token = token;
         this.reset();
-        this.balance = 2000; // todo what balance does a player start with
     }
 
-    decreaseBalance(amount: number) {
+    public decreaseBalance(amount: number) {
         this.balance -= amount;
     }
 
-    move(board: Board, dice: Dice) {
+    public move(board: Board, dice: Dice): BoardPosition {
         this.moveCount++;
         let previousPosition = this.position;
         let moveCount: number = dice.roll();
-        for (let i = 0; i < moveCount - 1; i++) {
+        for (let i = 1; i < moveCount; i++) {
             // skipOver
             board.getBoardSpace((previousPosition + i) % 40).skipOver(this);
         }
         // landOn
-        this.position = (this.position + dice.roll()) % 40;
+        this.position = (this.position + moveCount) % 40;
         board.getBoardSpace(this.position).landOn(this);
-
         return this.position;
     }
 
-    getBalance(): number {
+    public getBalance(): number {
         return this.balance;
     }
 
-    getMoveCount() {
+    public getMoveCount() {
         return this.moveCount;
     }
 
-    getPosition() {
+    public getPosition() {
         return this.position;
     }
 
-    getToken() {
+    public getToken() {
         return this.token;
     }
 
-    increaseBalance(amount: number) {
+    public increaseBalance(amount: number) {
         this.balance += amount;
     }
 
-    isInJail(): boolean {
+    public isInJail(): boolean {
         return this.inJail;
     }
 
-    setBalance(value: number) {
+    public setBalance(value: number) {
         this.balance = value;
     }
 
-    setInJail(value: boolean) {
+    public setInJail(value: boolean) {
         this.inJail = value;
     }
 
-    setPosition(position: BoardPosition) {
+    public setPosition(position: BoardPosition) {
         this.position = position;
     }
 
-    reset() {
+    /*
+    * resets position, moveCount, and balance
+    */
+    public reset() {
         this.position = BoardPosition.Go;
         this.moveCount = 0;
+        this.balance = 2000;
+        this.inJail = false;
     }
 
 }

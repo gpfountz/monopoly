@@ -5,10 +5,10 @@ import { BoardSpace } from './board-space';
 export class IncomeTax implements BoardSpace{
     position: BoardPosition = BoardPosition.IncomeTax;
 
-    skipOver(player: Player) {
+    public skipOver(player: Player) {
     }
 
-    landOn(player: Player) {
+    public landOn(player: Player) {
         let decreaseBalance = Math.min(200, player.getBalance() * .1);
         player.decreaseBalance(decreaseBalance);
     }
