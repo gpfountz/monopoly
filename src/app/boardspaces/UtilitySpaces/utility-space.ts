@@ -3,13 +3,12 @@ import { BoardPosition } from "app/board-positions.enum";
 import { Player } from "app/player";
 import { Board } from "app/board";
 
-export class PropertySpace implements BoardSpace {
+export class UtilitySpace implements BoardSpace {
     protected board: Board;
     protected owner: Player;
     protected group: BoardPosition[];
     protected mortgaged: boolean;
     protected purchasePrice: number;
-    protected rent: number;
 
     constructor(board: Board) {
         this.board = board;
@@ -37,14 +36,12 @@ export class PropertySpace implements BoardSpace {
             // nothing happens if property is mortgaged
         } else if (this.owner !== undefined) {
             // pay the property owner rent
-            // TODO check for available balance
-            let propertyRent = this.rent;
-            // TODO check for extra rent if all properties in a color group are owned by same player
-            for (let boardPosition of this.group) {
-                // TODO need access to board to get other board spaces
+            let rent = player.getDiceValue() * 4;
+            if (this.board.getCountOwnedInGroup(this.group) > 0) {
+                rent = player.getDiceValue() * 10;
             }
-            player.decreaseBalance(propertyRent);
-            this.owner.increaseBalance(propertyRent);
+            player.decreaseBalance(rent);
+            this.owner.increaseBalance(rent);
         }
     }
 }

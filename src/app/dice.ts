@@ -1,3 +1,4 @@
 export interface Dice {
-    roll() : number;
+    roll(): number;
+    isDouble(): boolean;
 }

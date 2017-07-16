@@ -9,6 +9,7 @@ export class Player {
     private inJail: boolean = false;
     private moveCount: number;
     private balance: number;
+    private diceValue: number;
 
     constructor(token: PlayerToken) {
         this.token = token;
@@ -21,20 +22,24 @@ export class Player {
 
     public move(board: Board, dice: Dice): BoardPosition {
         this.moveCount++;
+        this.diceValue = dice.roll();
         let previousPosition = this.position;
-        let moveCount: number = dice.roll();
-        for (let i = 1; i < moveCount; i++) {
-            // skipOver
-            board.getBoardSpace((previousPosition + i) % 40).passOver(this);
+        this.position = (this.position + this.diceValue) % 40;
+        for (let i = 1; i < this.diceValue; i++) {
+            board.passOver(this, (previousPosition + i) % 40);
         }
-        // landOn
-        this.position = (this.position + moveCount) % 40;
-        board.getBoardSpace(this.position).landOn(this);
+        //console.log("player's balance prior to landOn" + this.balance);
+        board.landOn(this, this.position);
+        //console.log("player's balance after to landOn" + this.balance);
         return this.position;
     }
 
     public getBalance(): number {
         return this.balance;
+    }
+
+    public getDiceValue(): number {
+        return this.diceValue
     }
 
     public getMoveCount() {

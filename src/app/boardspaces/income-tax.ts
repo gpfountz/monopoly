@@ -1,9 +1,20 @@
 import { BoardPosition } from 'app/board-positions.enum';
 import { Player } from './../player';
 import { BoardSpace } from './board-space';
+import { Board } from "app/board";
 
 export class IncomeTax implements BoardSpace{
-    position: BoardPosition = BoardPosition.IncomeTax;
+    private board: Board;
+    private owner: Player = undefined;
+    private position: BoardPosition = BoardPosition.IncomeTax;
+
+    constructor(board: Board) {
+        this.board = board;
+    }
+
+    getOwner(): Player {
+        return this.owner;
+    }
 
     public passOver(player: Player) {
     }

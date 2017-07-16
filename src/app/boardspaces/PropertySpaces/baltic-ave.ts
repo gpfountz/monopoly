@@ -1,13 +1,13 @@
-import { BoardPosition } from "app/board-positions.enum";
 import { PropertySpace } from "app/boardspaces/PropertySpaces/property-space";
+import { BoardPosition } from "app/board-positions.enum";
 import { Board } from "app/board";
 
-export class MediteranianAve extends PropertySpace {
+export class BalticAve extends PropertySpace {
 
     constructor(board: Board) {
         super(board);
-        this.group = [BoardPosition.BalticAve];
+        this.group = [BoardPosition.MediteranianAve];
         this.purchasePrice = 60;
-        this.rent = 2;
+        this.rent = 4;
     }
 }
