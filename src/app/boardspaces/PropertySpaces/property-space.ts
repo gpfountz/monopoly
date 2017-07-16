@@ -39,9 +39,8 @@ export class PropertySpace implements BoardSpace {
             // pay the property owner rent
             // TODO check for available balance
             let propertyRent = this.rent;
-            // TODO check for extra rent if all properties in a color group are owned by same player
-            for (let boardPosition of this.group) {
-                // TODO need access to board to get other board spaces
+            if (this.board.getCountOwnedInGroup(this.group, this.owner.getToken()) == this.group.length) {
+                propertyRent *= 2;
             }
             player.decreaseBalance(propertyRent);
             this.owner.increaseBalance(propertyRent);

@@ -118,4 +118,12 @@ export class Board {
         }
         return count;
     }
+
+    public getOwner(position: BoardPosition): PlayerToken {
+        let player = this.getBoardSpace(position).getOwner();
+        if (player === undefined) {
+            return undefined;
+        }
+        return player.getToken();
+    }
 }
