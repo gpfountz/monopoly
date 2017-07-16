@@ -9,12 +9,12 @@ describe('Player Movements', () => {
     let player :Player;
 
     beforeAll(() => {
-        board = new Board();
         player = new Player(PlayerToken.topHat);
     });
 
     beforeEach(() => {
-        player.setPosition(BoardPosition.Go)
+        board = new Board();
+        player.reset();
     });
 
     it('get initial position', () => {
@@ -25,10 +25,9 @@ describe('Player Movements', () => {
         expect(player.move(board, new FakeDice(3,4))).toEqual(BoardPosition.Chance1);
     });
 
-    it('Player on location numbered 39, rolls 6, ends up on location 5', () => {
+    it('Player on location numbered 39, rolls 5, ends up on location 4', () => {
         player.setPosition(BoardPosition.Boardwalk);
-        expect(new FakeDice(3,3).roll()).toEqual(6);
-        expect(player.move(board, new FakeDice(3,3))).toEqual(BoardPosition.ReadingRailroad);
+        expect(player.move(board, new FakeDice(3,2))).toEqual(BoardPosition.IncomeTax);
     });
 
     it('During a turn a Player lands on Go and their balance increases by $200', () => {
@@ -54,6 +53,8 @@ describe('Player Movements', () => {
 
     it('Player starts on Go, takes a turn where the Player does not additionally land on or pass over Go. Their balance remains unchanged.', () => {
         player.setPosition(BoardPosition.Go);
+        player.move(board, new FakeDice(2,3)); // move to ReadingRailroad and buy it so when we land it during test, cash balance will not change
+        player.setPosition(BoardPosition.Go);
         let balance = player.getBalance();
         expect(player.move(board, new FakeDice(2,3))).toEqual(BoardPosition.ReadingRailroad);
         expect(player.getBalance()).toEqual(balance);
@@ -61,31 +62,31 @@ describe('Player Movements', () => {
 
     it('Player passes go twice during a turn. Their balance increases by $200 each time for a total change of $400.', () => {
         player.setPosition(BoardPosition.Boardwalk);
-        player.move(board, new FakeDice(6,6)); // move to and buy these properties
-        player.move(board, new FakeDice(6,6));
-        player.move(board, new FakeDice(6,6));
+        player.move(board, new FakeDice(6,5)); // move to and buy these properties
+        player.move(board, new FakeDice(6,5));
+        player.move(board, new FakeDice(6,5));
         player.move(board, new FakeDice(6,5));
         player.setPosition(BoardPosition.Boardwalk);
         let balance = player.getBalance();
-        player.move(board, new FakeDice(6,6));
-        player.move(board, new FakeDice(6,6));
-        player.move(board, new FakeDice(6,6));
-        expect(player.move(board, new FakeDice(6,5))).toEqual(BoardPosition.OrientalAve);
+        player.move(board, new FakeDice(6,5));
+        player.move(board, new FakeDice(6,5));
+        player.move(board, new FakeDice(6,5));
+        expect(player.move(board, new FakeDice(6,5))).toEqual(BoardPosition.BalticAve);
         expect(player.getBalance()).toEqual(balance + 400);
     });
 
     it('Player starts before Go To Jail, lands on Go To Jail, ends up on Just Visiting and their balance is unchanged.', () => {
-        player.setPosition(BoardPosition.WaterWorks);
+        player.setPosition(BoardPosition.GoToJail - 3);
         let balance = player.getBalance();
-        expect(player.move(board, new FakeDice(1,1))).toEqual(BoardPosition.GoToJail);
+        expect(player.move(board, new FakeDice(1,2))).toEqual(BoardPosition.Jail);
         expect(player.getBalance()).toEqual(balance);
-        expect(player.isInJail()).toBeFalsy();
+        expect(player.isInJail()).toBeTruthy();
     });
 
     it('Player starts before Go To Jail, rolls enough to pass over Go To Jail but not enough to land on or pass over go. Their balance is unchanged and they end up where the should based on what they rolled.', () => {
-        player.setPosition(BoardPosition.PacificAve - 2);
-        player.move(board, new FakeDice(1,1)); // move to pacific ave and buy it so when we land it during test, cash balance will not change
-        player.setPosition(BoardPosition.WaterWorks);
+        player.setPosition(BoardPosition.PacificAve - 3);
+        player.move(board, new FakeDice(1,2)); // move to pacific ave and buy it so when we land it during test, cash balance will not change
+        player.setPosition(BoardPosition.PacificAve - 3);
         let balance = player.getBalance();
         expect(player.move(board, new FakeDice(1,2))).toEqual(BoardPosition.PacificAve);
         expect(player.getBalance()).toEqual(balance);
@@ -125,8 +126,10 @@ describe('Player Movements', () => {
     });
 
     it('During a turn, a Player passes over Income Tax. Nothing happens.', () => {
+        player.setPosition(BoardPosition.ReadingRailroad - 4);
+        player.move(board, new FakeDice(1,3)); // move to ReadingRailroad and buy it so when we land it during test, cash balance will not change
         let balance = player.getBalance();
-        player.setPosition(BoardPosition.IncomeTax - 3);
+        player.setPosition(BoardPosition.ReadingRailroad - 4);
         expect(player.move(board, new FakeDice(1,3))).toEqual(BoardPosition.ReadingRailroad);
         expect(player.getBalance()).toEqual(balance);        
     });

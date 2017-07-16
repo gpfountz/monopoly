@@ -7,14 +7,13 @@ import { Board } from "app/board";
 export class DefaultSpace implements BoardSpace {
     private board: Board;
     private owner: Player = undefined;
-    private position: BoardPosition = undefined;
 
     constructor(board: Board) {
         this.board = board;
     }
 
     public getOwner(): Player {
-        throw new Error("Method not implemented.");
+        return this.owner;
     }
 
     public passOver(player: Player) {

@@ -34,6 +34,7 @@ import { PennsylvaniaAve } from "app/boardspaces/PropertySpaces/pennsylvania-ave
 import { ShortLine } from "app/boardspaces/RailRoadSpaces/short-line";
 import { ParkPlace } from "app/boardspaces/PropertySpaces/park-place";
 import { Boardwalk } from "app/boardspaces/PropertySpaces/boardwalk";
+import { GoToJail } from "app/boardspaces/go-to-jail";
 
 export class Board {
     private boardSpaceMap: Map<BoardPosition, BoardSpace> = new Map<BoardPosition, BoardSpace>();
@@ -69,7 +70,7 @@ export class Board {
         this.boardSpaceMap.set(BoardPosition.VentnorAve, new VentnorAve(this));
         this.boardSpaceMap.set(BoardPosition.WaterWorks, new WaterWorks(this));
         this.boardSpaceMap.set(BoardPosition.MarvinGardens, new MarvinGardens(this));
-        //this.boardSpaceMap.set(BoardPosition.GoToJail, new GoToJail(this));
+        this.boardSpaceMap.set(BoardPosition.GoToJail, new GoToJail(this));
         this.boardSpaceMap.set(BoardPosition.PacificAve, new PacificAve(this));
         this.boardSpaceMap.set(BoardPosition.NorthCarolinaAve, new NorthCarolinaAve(this));
         //this.boardSpaceMap.set(BoardPosition.CommunityChest, new CommunityChest(this));
