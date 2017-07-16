@@ -37,7 +37,7 @@ export class UtilitySpace implements BoardSpace {
         } else if (this.owner !== undefined) {
             // pay the property owner rent
             let rent = player.getDiceValue() * 4;
-            if (this.board.getCountOwnedInGroup(this.group) > 0) {
+            if (this.board.getCountOwnedInGroup(this.group) == this.group.length) {
                 rent = player.getDiceValue() * 10;
             }
             player.decreaseBalance(rent);
