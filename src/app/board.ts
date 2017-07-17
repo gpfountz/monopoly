@@ -90,14 +90,21 @@ export class Board {
         return space;
     }
 
+    /** method to define what happens when a player passes over this board position */
     public passOver(player: Player, position: BoardPosition) {
         this.getBoardSpace(position).passOver(player);
     }
 
+    /** method to define what happens when a player lands on this board position */
     public landOn(player: Player, position: BoardPosition) {
         this.getBoardSpace(position).landOn(player);
     }
 
+    /** 
+     * every board space has an array of other board positions in the same group.
+     * this method returns a count of all the positions owned by the same player token.
+     * player token is optional, if not passed in, the count will be for all positions owned by any player.
+     */
     public getCountOwnedInGroup(positions: BoardPosition[], owner?: PlayerToken): number {
         let count = 0;
         if (owner === undefined) {
@@ -119,6 +126,7 @@ export class Board {
         return count;
     }
 
+    /** gets the owner of this board position or undefined if not owned by any player */
     public getOwner(position: BoardPosition): PlayerToken {
         let player = this.getBoardSpace(position).getOwner();
         if (player === undefined) {

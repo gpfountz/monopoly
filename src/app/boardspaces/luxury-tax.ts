@@ -12,13 +12,16 @@ export class LuxuryTax implements BoardSpace {
         this.board = board;
     }
 
+     /** always returns undefined */
     getOwner(): Player {
         return this.owner;
     }
 
+    /** no affect */
     public passOver(player: Player) {
     }
 
+    /** player pays 75 when landing here */
     public landOn(player: Player) {
         player.decreaseBalance(75);
     }

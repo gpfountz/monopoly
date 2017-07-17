@@ -16,13 +16,20 @@ export class UtilitySpace implements BoardSpace {
         this.mortgaged = false;
     }
 
+    /** returns the player that owns this ulitity */
     public getOwner(): Player {
         return this.owner;
     }
 
+    /** no affect */
     public passOver(player: Player) {
     }
 
+    /** 
+     * if unowned, player will buy this utility.
+     * if owned by another player, pay other player 4x value of dice.
+     * if owned by another player who owns both utilities, pay other player 10x value of dice.
+     */
     public landOn(player: Player) {
         if (this.owner === undefined) {
             // attempt to buy the property

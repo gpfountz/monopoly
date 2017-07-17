@@ -24,10 +24,12 @@ export class Game {
         this.shuffle(this.players);
     }
 
+    /** get this number of players in the game */
     public getNumberPlayers(): number {
         return this.players.length;
     }
 
+    /** get the player for a specific player token */
     public getPlayer(playerToken: PlayerToken) {
         for (let player of this.players) {
             if (player.getToken() === playerToken) {
@@ -37,7 +39,7 @@ export class Game {
         return undefined;
     }
 
-    // player's order of play, first player is 0
+    /** get the order of play for a specific player.  result is 0 based, 0 being the first in order */
     public getPlayerOrder(playerToken: PlayerToken): number {
         for (let i = 0; i < this.players.length; i++) {
             if (this.players[i].getToken() === playerToken) {
@@ -47,21 +49,21 @@ export class Game {
         return -1;
     }
 
+    /** play a number of rounds.  each player moves once per round. */
     public playRounds(count: number) {
         for (let index = 0; index < count; index++) {
             this.playRound();
         }
     }
 
+    /** play 1 round.  each player moves once. */
     public playRound() {
         for(let player of this.players) {
             player.move(this.board, this.dice);
         }
     }
 
-    /*
-    * The de-facto unbiased shuffle algorithm is the Fisher-Yates (aka Knuth) Shuffle
-    */
+    /** The de-facto unbiased shuffle algorithm is the Fisher-Yates (aka Knuth) Shuffle */
     private shuffle(array) {
         let currentIndex = array.length, temporaryValue, randomIndex;
 

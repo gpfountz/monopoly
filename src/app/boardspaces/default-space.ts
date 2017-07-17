@@ -12,13 +12,16 @@ export class DefaultSpace implements BoardSpace {
         this.board = board;
     }
 
+     /** always returns undefined */
     public getOwner(): Player {
         return this.owner;
     }
 
+    /** no affect */
     public passOver(player: Player) {
     }
 
+    /** no affect */
     public landOn(player: Player) {
     }
 }

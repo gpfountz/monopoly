@@ -17,13 +17,19 @@ export class RailRoadSpace implements BoardSpace {
         this.purchasePrice = 200;
     }
 
+    /** returns the player that owns this railroad */
     getOwner(): Player {
         return this.owner;
     }
 
+    /** no affect */
     public passOver(player: Player) {
     }
 
+    /** 
+     * if unowned, player will buy this railroad.
+     * if owned by another player, pay other player 25,50,100,200 depending if other player owns 1,2,3,4 rail roads.
+     */
     public landOn(player: Player) {
         if (this.owner === undefined) {
             // attempt to buy the property

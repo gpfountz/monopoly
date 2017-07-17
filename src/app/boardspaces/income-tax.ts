@@ -12,13 +12,16 @@ export class IncomeTax implements BoardSpace{
         this.board = board;
     }
 
+     /** always returns undefined */
     getOwner(): Player {
         return this.owner;
     }
 
+    /** no affect */
     public passOver(player: Player) {
     }
 
+    /** player pays 200 or 10% of their cash balance, whichever is less */
     public landOn(player: Player) {
         let decreaseBalance = Math.min(200, player.getBalance() * .1);
         player.decreaseBalance(decreaseBalance);

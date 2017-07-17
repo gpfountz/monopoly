@@ -12,13 +12,17 @@ export class Go implements BoardSpace {
         this.board = board;
     }
 
+    /** always returns undefined */
     public getOwner(): Player {
         return this.owner;
     }
+    
+    /** player gets 200 for passing go */
     public passOver(player: Player) {
         player.increaseBalance(200);
     };
 
+    /** player gets 200 for landing on go */
     public landOn(player: Player) {
         player.increaseBalance(200);
     }

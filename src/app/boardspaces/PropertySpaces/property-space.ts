@@ -17,6 +17,7 @@ export class PropertySpace implements BoardSpace {
         this.mortgaged = false;
     }
 
+    /** returns the player that owns this property */
     public getOwner(): Player {
         return this.owner;
     }

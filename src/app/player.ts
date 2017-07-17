@@ -18,10 +18,16 @@ export class Player {
         this.reset();
     }
 
+    /** decreases the players cash balance by the amount */
     public decreaseBalance(amount: number) {
         this.balance -= amount;
     }
 
+    /** 
+     * rolls dice and moves dice's value.
+     * if rolls a double, moves again.
+     * if rolls 3 doubles in a row, goes to jail without processing 3rd roll.
+     */
     public move(board: Board, dice: Dice): BoardPosition {
         this.moveCount++;
         let doubleMoveCount: number = 0;
@@ -47,50 +53,58 @@ export class Player {
         return this.position;
     }
 
+    /** get's this players cash balance */
     public getBalance(): number {
         return this.balance;
     }
 
+    /** gets the last dice rolled value */
     public getDiceValue(): number {
         return this.diceValue
     }
 
+    /** gets the player's total times the moved in a game.  extra moves due to rolling double does not count. */
     public getMoveCount() {
         return this.moveCount;
     }
 
+    /** return's this player's board position (enum) */
     public getPosition() {
         return this.position;
     }
 
+    /** return's this player's player token (enum) */
     public getToken() {
         return this.token;
     }
 
+    /** increases this players cash balance */
     public increaseBalance(amount: number) {
         this.balance += amount;
     }
 
+    /** true if this player is in jail, not just visiting */
     public isInJail(): boolean {
         return this.inJail;
     }
 
+    /** set's this players cash balance */
     public setBalance(value: number) {
         this.balance = value;
     }
 
+    /** set's this players in jail status, not just visiting */
     public setInJail(value: boolean) {
         //console.log("setInJail:" + value);
         this.inJail = value;
     }
 
+    /** set's this player's board position (enum) */
     public setPosition(position: BoardPosition) {
         this.position = position;
     }
 
-    /*
-    * resets position, moveCount, and balance
-    */
+    /** resets position, moveCount, and balance */
     public reset() {
         this.position = BoardPosition.Go;
         this.moveCount = 0;

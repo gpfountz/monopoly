@@ -1,3 +1,4 @@
+/** an enumeration of all positions on the board */
 export enum BoardPosition {
     Go,
     MediteranianAve,
