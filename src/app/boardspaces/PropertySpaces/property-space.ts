@@ -22,9 +22,15 @@ export class PropertySpace implements BoardSpace {
         return this.owner;
     }
 
+    /** no affect */
     public passOver(player: Player) {
     }
 
+    /** 
+     * if unowned, player will buy this property.
+     * if owned by another player, pay other player rent.  
+     * rent will be double of other player owns all properties in the group.
+     */
     public landOn(player: Player) {
         if (this.owner === undefined) {
             // attempt to buy the property

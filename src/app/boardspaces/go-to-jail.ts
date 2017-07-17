@@ -11,15 +11,18 @@ export class GoToJail implements BoardSpace {
         this.board = board;
     }
     
+    /** always returns undefined */
     getOwner(): Player {
         return this.owner;
     }
     
+    /** sends player to jail without passing go */
     landOn(player: Player) {
         player.setPosition(BoardPosition.Jail);
         player.setInJail(true);
     }
 
+    /** no affect */
     passOver(player: Player) {
     }
 }
