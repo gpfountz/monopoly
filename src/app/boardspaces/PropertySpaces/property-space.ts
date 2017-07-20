@@ -3,7 +3,8 @@ import { BoardPosition } from "app/board-positions.enum";
 import { Player } from "app/player";
 import { Board } from "app/board";
 
-export class PropertySpace implements BoardSpace {
+/** base class for properties */
+export abstract class PropertySpace implements BoardSpace {
     protected board: Board;
     protected owner: Player;
     protected group: BoardPosition[];

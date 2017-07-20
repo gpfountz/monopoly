@@ -3,7 +3,8 @@ import { BoardPosition } from "app/board-positions.enum";
 import { Player } from "app/player";
 import { Board } from "app/board";
 
-export class RailRoadSpace implements BoardSpace {
+/** base class for rail roads */
+export abstract class RailRoadSpace implements BoardSpace {
     protected board: Board;
     protected owner: Player;
     protected group: BoardPosition[];

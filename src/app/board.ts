@@ -107,18 +107,10 @@ export class Board {
      */
     public getCountOwnedInGroup(positions: BoardPosition[], owner?: PlayerToken): number {
         let count = 0;
-        if (owner === undefined) {
-            // get count of owned by any player
-            for (let position of positions) {
-                if (this.getBoardSpace(position).getOwner() !== undefined) {
-                    count++;
-                }
-            }
-        } else {
-            // get count of owned by this player
-            for (let position of positions) {
-                let positionOwner: Player = this.getBoardSpace(position).getOwner();
-                if (positionOwner !== undefined && positionOwner.getToken() === owner) {
+        for (let position of positions) {
+            let positionOwner: Player = this.getBoardSpace(position).getOwner();
+            if (positionOwner !== undefined) {
+                if (owner === undefined || positionOwner.getToken() === owner) {
                     count++;
                 }
             }

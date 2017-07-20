@@ -3,7 +3,8 @@ import { BoardPosition } from "app/board-positions.enum";
 import { Player } from "app/player";
 import { Board } from "app/board";
 
-export class UtilitySpace implements BoardSpace {
+/** base case for utility spaces */
+export abstract class UtilitySpace implements BoardSpace {
     protected board: Board;
     protected owner: Player;
     protected group: BoardPosition[];
