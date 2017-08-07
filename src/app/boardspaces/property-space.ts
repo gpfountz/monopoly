@@ -3,23 +3,26 @@ import { BoardPosition } from "app/board-positions.enum";
 import { Player } from "app/player";
 import { Board } from "app/board";
 
-/** base class for rail roads */
-export abstract class RailRoadSpace implements BoardSpace {
+/** base class for properties */
+export class PropertySpace implements BoardSpace {
     protected board: Board;
     protected owner: Player;
     protected group: BoardPosition[];
     protected mortgaged: boolean;
     protected purchasePrice: number;
+    protected rent: number;
 
-    constructor(board: Board) {
+    constructor(board: Board, group: BoardPosition[], purchasePrice: number, rent: number) {
         this.board = board;
         this.owner = undefined;
         this.mortgaged = false;
-        this.purchasePrice = 200;
+        this.group = group;
+        this.purchasePrice = purchasePrice;
+        this.rent = rent;
     }
 
-    /** returns the player that owns this railroad */
-    getOwner(): Player {
+    /** returns the player that owns this property */
+    public getOwner(): Player {
         return this.owner;
     }
 
@@ -28,8 +31,9 @@ export abstract class RailRoadSpace implements BoardSpace {
     }
 
     /** 
-     * if unowned, player will buy this railroad.
-     * if owned by another player, pay other player 25,50,100,200 depending if other player owns 1,2,3,4 rail roads.
+     * if unowned, player will buy this property.
+     * if owned by another player, pay other player rent.  
+     * rent will be double of other player owns all properties in the group.
      */
     public landOn(player: Player) {
         if (this.owner === undefined) {
@@ -45,18 +49,12 @@ export abstract class RailRoadSpace implements BoardSpace {
         } else if (this.owner !== undefined) {
             // pay the property owner rent
             // TODO check for available balance
-            if (this.getOwner() !== undefined) {
-                let ownerCount = this.board.getCountOwnedInGroup(
-                    this.group, this.getOwner().getToken());
-                let rent = 25;
-                switch(ownerCount) {
-                    case 1: rent = 50; break;
-                    case 2: rent = 100; break;
-                    case 3: rent = 200; break;
-                }
-                player.decreaseBalance(rent);
-                this.owner.increaseBalance(rent);
+            let propertyRent = this.rent;
+            if (this.board.getCountOwnedInGroup(this.group, this.owner.getToken()) == this.group.length) {
+                propertyRent *= 2;
             }
+            player.decreaseBalance(propertyRent);
+            this.owner.increaseBalance(propertyRent);
         }
     }
 }

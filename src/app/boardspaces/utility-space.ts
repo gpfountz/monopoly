@@ -3,22 +3,23 @@ import { BoardPosition } from "app/board-positions.enum";
 import { Player } from "app/player";
 import { Board } from "app/board";
 
-/** base class for properties */
-export abstract class PropertySpace implements BoardSpace {
+/** base case for utility spaces */
+export class UtilitySpace implements BoardSpace {
     protected board: Board;
     protected owner: Player;
     protected group: BoardPosition[];
     protected mortgaged: boolean;
     protected purchasePrice: number;
-    protected rent: number;
 
-    constructor(board: Board) {
+    constructor(board: Board, group: BoardPosition[], purchasePrice: number) {
         this.board = board;
         this.owner = undefined;
         this.mortgaged = false;
+        this.group = group;
+        this.purchasePrice = purchasePrice;
     }
 
-    /** returns the player that owns this property */
+    /** returns the player that owns this ulitity */
     public getOwner(): Player {
         return this.owner;
     }
@@ -28,9 +29,9 @@ export abstract class PropertySpace implements BoardSpace {
     }
 
     /** 
-     * if unowned, player will buy this property.
-     * if owned by another player, pay other player rent.  
-     * rent will be double of other player owns all properties in the group.
+     * if unowned, player will buy this utility.
+     * if owned by another player, pay other player 4x value of dice.
+     * if owned by another player who owns both utilities, pay other player 10x value of dice.
      */
     public landOn(player: Player) {
         if (this.owner === undefined) {
@@ -45,13 +46,12 @@ export abstract class PropertySpace implements BoardSpace {
             // nothing happens if property is mortgaged
         } else if (this.owner !== undefined) {
             // pay the property owner rent
-            // TODO check for available balance
-            let propertyRent = this.rent;
-            if (this.board.getCountOwnedInGroup(this.group, this.owner.getToken()) == this.group.length) {
-                propertyRent *= 2;
+            let rent = player.getDiceValue() * 4;
+            if (this.board.getCountOwnedInGroup(this.group) == this.group.length) {
+                rent = player.getDiceValue() * 10;
             }
-            player.decreaseBalance(propertyRent);
-            this.owner.increaseBalance(propertyRent);
+            player.decreaseBalance(rent);
+            this.owner.increaseBalance(rent);
         }
     }
 }
