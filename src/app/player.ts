@@ -49,7 +49,7 @@ export class Player {
             //console.log("player's balance prior to landOn" + this.balance);
             board.landOn(this, this.position);
             //console.log("player's balance after to landOn" + this.balance);
-        } while(dice.isDouble());
+        } while(dice.isDouble() && this.inJail == false);
         return this.position;
     }
 
