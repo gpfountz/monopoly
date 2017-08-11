@@ -343,4 +343,74 @@ describe('Release 4: Landing on goto jail.', () => {
         expect(player.move(board, new FakeDice([3, 3, 2, 3]))).toEqual(BoardPosition.Jail);
         expect(player.getBalance()).toEqual(balance);
     });
+
+    it('Pass over Go To Jail, nothing happens.', () => {
+        player.setPosition(BoardPosition.GoToJail - 6);
+        expect(player.move(board, new FakeDice([3, 4]))).toEqual(BoardPosition.GoToJail + 1);
+    })
+});
+
+describe('Release 4: Rolling Doubles 3x.', () => {
+    let board: Board;
+    let player: Player;
+
+    beforeAll(() => {
+        player = new Player(PlayerToken.topHat);
+    });
+
+    beforeEach(() => {
+        board = new Board();
+        player.reset();
+    });
+
+    it('Roll doubles 3 times in a row, never pass or land on go. Balance is unchanged. Player is in Jail.', () => {
+        let balance = player.getBalance();
+        player.setPosition(BoardPosition.Go);
+        expect(player.move(board, new FakeDice([3, 3, 3, 3, 3, 3]))).toEqual(BoardPosition.Jail);
+        // oriental costs 100
+        // electric company costs 150
+        // tennessee ave cost 180, but since it is the 3rd double will not be purchased
+        expect(player.getBalance()).toEqual(balance - 250);
+    });
+
+    it('Roll doubles 3 times in a row, pass or land on go during first two rolls. Balance increases by $200. Player is in Jail.', () => {
+        let balance = player.getBalance();
+        player.setPosition(BoardPosition.PacificAve);
+        expect(player.move(board, new FakeDice([3, 3, 3, 3, 3, 3]))).toEqual(BoardPosition.Jail);
+        // Park Place costs 350
+        // passing go receive 200
+        // Baltic Ave cost 60
+        // connecticut ave cost 180, but since it is the 3rd double will not be purchased
+        expect(player.getBalance()).toEqual(balance - 350 + 200 - 60);
+    });
+
+    it('Roll doubles 2 times in a row. Player is not in Jail.', () => {
+        player.setPosition(BoardPosition.Go);
+        expect(player.move(board, new FakeDice([3, 3, 3, 3, 3, 2]))).not.toEqual(BoardPosition.Jail);
+    });
+
+});
+
+describe('Release 4: Pay to Get Out of Jail', () => {
+    let board: Board;
+    let player: Player;
+
+    beforeAll(() => {
+        player = new Player(PlayerToken.topHat);
+    });
+
+    beforeEach(() => {
+        board = new Board();
+        player.reset();
+    });
+
+    it('In Jail, Player pays $50. Rolls doubles, moves and rolls again, balance decreased by $50.', () => {
+        player.setPosition(BoardPosition.Go);
+        player.setInJail(true);
+        
+    });
+
+    it('In Jail, Player pays $50. Rolls doubles, moves, does not roll a second time, balance decreased by $50.', () => {
+    });
+
 });
