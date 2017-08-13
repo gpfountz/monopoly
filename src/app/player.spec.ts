@@ -80,7 +80,7 @@ describe('Player Movements', () => {
         let balance = player.getBalance();
         expect(player.move(board, new FakeDice([1, 2]))).toEqual(BoardPosition.Jail);
         expect(player.getBalance()).toEqual(balance);
-        expect(player.isInJail()).toBeTruthy();
+        expect(board.getJailhouse().isInJail(player.getToken())).toBeTruthy();
     });
 
     it('Player starts before Go To Jail, rolls enough to pass over Go To Jail but not enough to land on or pass over go. Their balance is unchanged and they end up where the should based on what they rolled.', () => {
@@ -90,7 +90,7 @@ describe('Player Movements', () => {
         let balance = player.getBalance();
         expect(player.move(board, new FakeDice([1, 2]))).toEqual(BoardPosition.PacificAve);
         expect(player.getBalance()).toEqual(balance);
-        expect(player.isInJail()).toBeFalsy();
+        expect(board.getJailhouse().isInJail(player.getToken())).toBeFalsy();
     });
 
     it('During a turn, a Player with an initial total worth of $1800 lands on Income Tax. The balance decreases by $180.', () => {
@@ -405,12 +405,21 @@ describe('Release 4: Pay to Get Out of Jail', () => {
     });
 
     it('In Jail, Player pays $50. Rolls doubles, moves and rolls again, balance decreased by $50.', () => {
-        player.setPosition(BoardPosition.Go);
-        player.setInJail(true);
-        
+        let balance = player.getBalance();
+        player.setPosition(BoardPosition.Jail);
+        board.getJailhouse().addInmate(player.getToken());
+        player.payToGetOutOfJail(board);
+        expect(player.getBalance()).toEqual(balance - 50);
+        expect(player.move(board, new FakeDice([3, 3, 3, 2]))).toEqual(BoardPosition.Jail + 11);
     });
 
-    it('In Jail, Player pays $50. Rolls doubles, moves, does not roll a second time, balance decreased by $50.', () => {
+    it('In Jail, Player pays $50. Rolls not doubles, moves, does not roll a second time, balance decreased by $50.', () => {
+        let balance = player.getBalance();
+        player.setPosition(BoardPosition.Jail);
+        board.getJailhouse().addInmate(player.getToken());
+        player.payToGetOutOfJail(board);
+        expect(player.getBalance()).toEqual(balance - 50);
+        expect(player.move(board, new FakeDice([3, 2]))).toEqual(BoardPosition.Jail + 5);
     });
 
 });

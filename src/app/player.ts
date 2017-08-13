@@ -8,7 +8,6 @@ const player_max_double_move_count: number = 3;
 export class Player {
     private token: PlayerToken;
     private position: BoardPosition;
-    private inJail: boolean;
     private moveCount: number;
     private balance: number;
     private diceValue: number;
@@ -23,13 +22,35 @@ export class Player {
         this.balance -= amount;
     }
 
+    public move(board: Board, dice: Dice): BoardPosition {
+        this.moveCount++;
+        if (board.getJailhouse().isInJail(this.getToken())) {
+            return this.moveWhileInJail(board, dice);
+        }
+        return this.moveWhileNotInJail(board, dice);
+    }
+
+    /**
+     * for the next three turns, if player rolls doubles, the move that value without rolling again.
+     * after third turn w/o rolling a double, pay $50 and move the value of the dice on the third roll.
+     * before any turn, a player can pay $50 or play a get ouf jail card.
+     * @param board 
+     * @param dice 
+     */
+    private moveWhileInJail(board: Board, dice: Dice): BoardPosition {
+
+
+        return this.position;
+    }
+
     /** 
      * rolls dice and moves dice's value.
      * if rolls a double, moves again.
      * if rolls 3 doubles in a row, goes to jail without processing 3rd roll.
+     * @param board 
+     * @param dice 
      */
-    public move(board: Board, dice: Dice): BoardPosition {
-        this.moveCount++;
+    private moveWhileNotInJail(board: Board, dice: Dice): BoardPosition {
         let doubleMoveCount: number = 0;
         do {
             doubleMoveCount++;
@@ -38,7 +59,7 @@ export class Player {
                 // roll 3 doubles and go directly to jail
                 //console.log("player rolled 3 doubles and goes to jail");
                 this.setPosition(BoardPosition.Jail);
-                this.inJail = true;
+                board.getJailhouse().addInmate(this.getToken());
                 break;
             }
             let previousPosition = this.position;
@@ -49,7 +70,7 @@ export class Player {
             //console.log("player's balance prior to landOn" + this.balance);
             board.landOn(this, this.position);
             //console.log("player's balance after to landOn" + this.balance);
-        } while(dice.isDouble() && this.inJail == false);
+        } while (dice.isDouble() &&  board.getJailhouse().isInJail(this.getToken()) == false);
         return this.position;
     }
 
@@ -83,20 +104,23 @@ export class Player {
         this.balance += amount;
     }
 
-    /** true if this player is in jail, not just visiting */
-    public isInJail(): boolean {
-        return this.inJail;
+    public payToGetOutOfJail(board: Board) {
+        if (board.getJailhouse().isInJail(this.getToken())) {
+            this.balance -= 50;
+            board.getJailhouse().removeInmate(this.getToken());
+        }
+    }
+
+    public playGetOutOfJailCard(board: Board) {
+        if (board.getJailhouse().isInJail(this.getToken())) {
+            // TODO remove card from player
+            board.getJailhouse().removeInmate(this.getToken());
+        }
     }
 
     /** set's this players cash balance */
     public setBalance(value: number) {
         this.balance = value;
-    }
-
-    /** set's this players in jail status, not just visiting */
-    public setInJail(value: boolean) {
-        //console.log("setInJail:" + value);
-        this.inJail = value;
     }
 
     /** set's this player's board position (enum) */
@@ -109,7 +133,6 @@ export class Player {
         this.position = BoardPosition.Go;
         this.moveCount = 0;
         this.balance = 2000;
-        this.inJail = false;
     }
 
 }

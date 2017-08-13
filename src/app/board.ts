@@ -10,9 +10,11 @@ import { GoToJail } from "app/boardspaces/go-to-jail";
 import { RailRoadSpace } from "app/boardspaces/rail-road-space";
 import { PropertySpace } from "app/boardspaces/property-space";
 import { UtilitySpace } from "app/boardspaces/utility-space";
+import { Jailhouse } from "app/jailhouse";
 
 export class Board {
     private boardSpaceMap: Map<BoardPosition, BoardSpace> = new Map<BoardPosition, BoardSpace>();
+    private jailhouse: Jailhouse;
 
     constructor() {
         this.boardSpaceMap.set(BoardPosition.Go, new Go(this));
@@ -124,6 +126,8 @@ export class Board {
 
         this.boardSpaceMap.set(BoardPosition.Boardwalk, new PropertySpace(
             this, [BoardPosition.ParkPlace], 400, 50));
+
+        this.jailhouse = new Jailhouse();
     }
 
     private getBoardSpace(position: BoardPosition): BoardSpace {
@@ -169,5 +173,9 @@ export class Board {
             return undefined;
         }
         return player.getToken();
+    }
+
+    public getJailhouse() {
+        return this.jailhouse;
     }
 }

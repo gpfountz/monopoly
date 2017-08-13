@@ -19,7 +19,7 @@ export class GoToJail implements BoardSpace {
     /** sends player to jail without passing go */
     landOn(player: Player) {
         player.setPosition(BoardPosition.Jail);
-        player.setInJail(true);
+        this.board.getJailhouse().addInmate(player.getToken());
     }
 
     /** no affect */
