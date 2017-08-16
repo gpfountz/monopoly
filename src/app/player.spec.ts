@@ -423,3 +423,66 @@ describe('Release 4: Pay to Get Out of Jail', () => {
     });
 
 });
+
+describe('Release 4 Roll Doubles to Get Out of Jail.', () => {
+    let board: Board;
+    let player: Player;
+
+    beforeAll(() => {
+        player = new Player(PlayerToken.topHat);
+    });
+
+    beforeEach(() => {
+        board = new Board();
+        player.reset();
+    });
+
+    it('In Jail turns 1/2, roll doubles. Move once, no more rolling/moving.', () => {
+        // first roll is a double
+        player.setPosition(BoardPosition.Jail);
+        board.getJailhouse().addInmate(player.getToken());
+        expect(player.move(board, new FakeDice([3, 3, 3, 2]))).toEqual(BoardPosition.Jail + 6);
+        expect(board.getJailhouse().isInJail(player.getToken())).toBeFalsy();
+        // second roll is a double
+        player.setPosition(BoardPosition.Jail);
+        board.getJailhouse().addInmate(player.getToken());
+        expect(player.move(board, new FakeDice([3, 2]))).toEqual(BoardPosition.Jail);
+        expect(board.getJailhouse().isInJail(player.getToken())).toBeTruthy();
+        expect(player.move(board, new FakeDice([3, 3, 3, 2]))).toEqual(BoardPosition.Jail + 6);
+        expect(board.getJailhouse().isInJail(player.getToken())).toBeFalsy();
+    });
+
+    it('In Jail, turn 1/2, do not roll doubles. Still in Jail.', () => {
+        player.setPosition(BoardPosition.Jail);
+        board.getJailhouse().addInmate(player.getToken());
+        expect(player.move(board, new FakeDice([3, 2]))).toEqual(BoardPosition.Jail);
+        expect(board.getJailhouse().isInJail(player.getToken())).toBeTruthy();
+        expect(player.move(board, new FakeDice([3, 2]))).toEqual(BoardPosition.Jail);
+        expect(board.getJailhouse().isInJail(player.getToken())).toBeTruthy();
+    });
+
+    it('In Jail, turn 3, roll doubles. Move and don\'t roll again.', () => {
+        player.setPosition(BoardPosition.Jail);
+        board.getJailhouse().addInmate(player.getToken());
+        expect(player.move(board, new FakeDice([3, 2]))).toEqual(BoardPosition.Jail);
+        expect(board.getJailhouse().isInJail(player.getToken())).toBeTruthy();
+        expect(player.move(board, new FakeDice([3, 2]))).toEqual(BoardPosition.Jail);
+        expect(board.getJailhouse().isInJail(player.getToken())).toBeTruthy();
+        expect(player.move(board, new FakeDice([3, 3, 3, 2]))).toEqual(BoardPosition.Jail + 6);
+        expect(board.getJailhouse().isInJail(player.getToken())).toBeFalsy();
+    });
+
+    it('In Jail, turn 3, do not roll doubles. Move, balance decreased by $50.', () => {
+        let balance = player.getBalance();
+        player.setPosition(BoardPosition.Jail);
+        board.getJailhouse().addInmate(player.getToken());
+        expect(player.move(board, new FakeDice([3, 2]))).toEqual(BoardPosition.Jail);
+        expect(board.getJailhouse().isInJail(player.getToken())).toBeTruthy();
+        expect(player.move(board, new FakeDice([3, 2]))).toEqual(BoardPosition.Jail);
+        expect(board.getJailhouse().isInJail(player.getToken())).toBeTruthy();
+        expect(player.move(board, new FakeDice([3, 2]))).toEqual(BoardPosition.Jail + 5);
+        expect(board.getJailhouse().isInJail(player.getToken())).toBeFalsy();
+        expect(player.getBalance()).toEqual(balance - 50 - 200); // 50 to get out of jail, 200 to buy railroad
+    });
+
+});

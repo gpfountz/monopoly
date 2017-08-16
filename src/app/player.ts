@@ -38,8 +38,23 @@ export class Player {
      * @param dice 
      */
     private moveWhileInJail(board: Board, dice: Dice): BoardPosition {
-
-
+        this.diceValue = dice.roll();
+        board.getJailhouse().incrementInmateMoveCount(this.getToken());
+        if (dice.isDouble()) {
+            board.getJailhouse().removeInmate(this.getToken());    
+        } else if (board.getJailhouse().getInmateMoveCount(this.getToken()) == 3) {
+            this.decreaseBalance(50); // pay to get out of jail
+            board.getJailhouse().removeInmate(this.getToken());    
+        }
+        if (board.getJailhouse().isInJail(this.getToken()) == false) { 
+            // player is no longer in jail, move dice value and turn is over
+            let previousPosition = this.position;
+            this.position = (this.position + this.diceValue) % 40;
+            for (let i = 1; i < this.diceValue; i++) {
+                board.passOver(this, (previousPosition + i) % 40);
+            }
+            board.landOn(this, this.position);
+        }
         return this.position;
     }
 
