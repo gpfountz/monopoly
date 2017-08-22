@@ -13,7 +13,7 @@ describe('Player Movements', () => {
     });
 
     beforeEach(() => {
-        board = new Board();
+        board = new Board(Player[0]);
         player.reset();
     });
 
@@ -161,7 +161,7 @@ describe('Release 3 Player Buys Property', () => {
     });
 
     beforeEach(() => {
-        board = new Board();
+        board = new Board(Player[0]);
         player.reset();
     });
 
@@ -199,7 +199,7 @@ describe('Release 3 Player Pays Rent', () => {
     });
 
     beforeEach(() => {
-        board = new Board();
+        board = new Board(Player[0]);
         player.reset();
     });
 
@@ -321,7 +321,7 @@ describe('Release 4: Landing on goto jail.', () => {
     });
 
     beforeEach(() => {
-        board = new Board();
+        board = new Board(Player[0]);
         player.reset();
     });
 
@@ -359,7 +359,7 @@ describe('Release 4: Rolling Doubles 3x.', () => {
     });
 
     beforeEach(() => {
-        board = new Board();
+        board = new Board(Player[0]);
         player.reset();
     });
 
@@ -400,7 +400,7 @@ describe('Release 4: Pay to Get Out of Jail', () => {
     });
 
     beforeEach(() => {
-        board = new Board();
+        board = new Board(Player[0]);
         player.reset();
     });
 
@@ -433,7 +433,7 @@ describe('Release 4 Roll Doubles to Get Out of Jail.', () => {
     });
 
     beforeEach(() => {
-        board = new Board();
+        board = new Board(Player[0]);
         player.reset();
     });
 
