@@ -23,9 +23,23 @@ export class Game {
         this.board = new Board(players);
     }
 
+    public getBoard(): Board {
+        return this.board;
+    }
+
     /** get this number of players in the game */
     public getNumberPlayers(): number {
         return this.board.getPlayers().length;
+    }
+
+    /** get the order of play for a specific player.  result is 0 based, 0 being the first in order */
+    public getPlayerOrder(playerToken: PlayerToken): number {
+        for (let i = 0; i < this.board.getPlayers().length; i++) {
+            if (this.board.getPlayers()[i].getToken() === playerToken) {
+                return i;
+            }
+        }
+        return -1;
     }
 
     /** play a number of rounds.  each player moves once per round. */
@@ -37,7 +51,7 @@ export class Game {
 
     /** play 1 round.  each player moves once. */
     public playRound() {
-        for(let player of this.board.getPlayers()) {
+        for (let player of this.board.getPlayers()) {
             player.move(this.board, this.dice);
         }
     }

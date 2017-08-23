@@ -52,7 +52,7 @@ describe("game", () => {
         game.playRounds(roundCount);
         for (let playerToken of playerTokens) {
             //console.log("player move count=" + player.getMoveCount());
-            expect(game.getPlayer(playerToken).getMoveCount()).toEqual(roundCount);
+            expect(game.getBoard().getPlayer(playerToken).getMoveCount()).toEqual(roundCount);
         }
     });
 

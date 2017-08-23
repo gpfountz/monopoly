@@ -1,3 +1,5 @@
+import { CardDeck } from './card-deck';
+import { ChanceCardDeck } from './chancecards/chance-card-deck';
 import { LuxuryTax } from './boardspaces/luxury-tax';
 import { DefaultSpace } from './boardspaces/default-space';
 import { IncomeTax } from './boardspaces/income-tax';
@@ -16,6 +18,7 @@ export class Board {
     private players: Player[];
     private boardSpaceMap: Map<BoardPosition, BoardSpace> = new Map<BoardPosition, BoardSpace>();
     private jailhouse: Jailhouse;
+    private chanceCards: CardDeck;
 
     constructor(players: Player[]) {
         this.players = players;
@@ -131,6 +134,9 @@ export class Board {
             this, [BoardPosition.ParkPlace], 400, 50));
 
         this.jailhouse = new Jailhouse();
+
+        this.chanceCards = new ChanceCardDeck();
+
     }
 
     private getBoardSpace(position: BoardPosition): BoardSpace {
@@ -153,16 +159,6 @@ export class Board {
             }
         }
         return undefined;
-    }
-
-    /** get the order of play for a specific player.  result is 0 based, 0 being the first in order */
-    public getPlayerOrder(playerToken: PlayerToken): number {
-        for (let i = 0; i < this.players.length; i++) {
-            if (this.players[i].getToken() === playerToken) {
-                return i;
-            }
-        }
-        return -1;
     }
 
     /** method to define what happens when a player passes over this board position */
