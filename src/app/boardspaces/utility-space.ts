@@ -33,7 +33,7 @@ export class UtilitySpace implements BoardSpace {
      * if owned by another player, pay other player 4x value of dice.
      * if owned by another player who owns both utilities, pay other player 10x value of dice.
      */
-    public landOn(player: Player) {
+    public landOn(player: Player, option?: any) {
         if (this.owner === undefined) {
             // attempt to buy the property
             if (player.getBalance() >= this.purchasePrice) {
@@ -47,7 +47,8 @@ export class UtilitySpace implements BoardSpace {
         } else if (this.owner !== undefined) {
             // pay the property owner rent
             let rent = player.getDiceValue() * 4;
-            if (this.board.getCountOwnedInGroup(this.group) == this.group.length) {
+            if (this.board.getCountOwnedInGroup(this.group) == this.group.length
+                    || (option !== undefined && option.pay10x !== undefined && option.pay10x == true)) {
                 rent = player.getDiceValue() * 10;
             }
             player.decreaseBalance(rent);

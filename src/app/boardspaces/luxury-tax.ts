@@ -22,7 +22,7 @@ export class LuxuryTax implements BoardSpace {
     }
 
     /** player pays 75 when landing here */
-    public landOn(player: Player) {
+    public landOn(player: Player, option?: any) {
         player.decreaseBalance(75);
     }
 }

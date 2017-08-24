@@ -167,8 +167,8 @@ export class Board {
     }
 
     /** method to define what happens when a player lands on this board position */
-    public landOn(player: Player, position: BoardPosition) {
-        this.getBoardSpace(position).landOn(player);
+    public landOn(player: Player, position: BoardPosition, option?: any) {
+        this.getBoardSpace(position).landOn(player, option);
     }
 
     /** 

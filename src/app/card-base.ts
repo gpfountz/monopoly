@@ -14,14 +14,13 @@ export abstract class CardBase implements Card {
     abstract play(board: Board, playerToken: PlayerToken, dice: Dice);
 
     /**
-     * advance player to board position, setting the players position, but not 
-     * execute the board position land on method.
+     * advance player to board position, setting the players position
      * 
      * @param board 
      * @param playerToken 
      * @param position 
      */
-    protected advanceTo(board: Board, playerToken: PlayerToken, position: BoardPosition) {
+    protected advanceTo(board: Board, playerToken: PlayerToken, position: BoardPosition, option?: any) {
         let player: Player = board.getPlayer(playerToken);
         let currentPosition: BoardPosition = player.getPosition();
         while (currentPosition != position) {
@@ -30,6 +29,7 @@ export abstract class CardBase implements Card {
             board.passOver(player, currentPosition);
         };
         // reached target position
-        player.setPosition(position);
+        player.setPosition(currentPosition);
+        board.landOn(board.getPlayer(playerToken), currentPosition, option);
     }
 }

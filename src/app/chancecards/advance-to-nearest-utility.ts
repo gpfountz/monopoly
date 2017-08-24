@@ -12,6 +12,13 @@ export class AdvanceToNearestUtility extends CardBase implements Card {
         super("Advance token to nearest Utility");
     }
 
+    /**
+     * determine nearest utility, then move there.  if owned, pay owner 10x dice roll.
+     * 
+     * @param board 
+     * @param playerToken 
+     * @param dice 
+     */
     play(board: Board, playerToken: PlayerToken, dice: Dice) {
         let nearestUtility: BoardPosition = BoardPosition.WaterWorks;
         let currentPosition: BoardPosition = board.getPlayer(playerToken).getPosition();
@@ -19,32 +26,6 @@ export class AdvanceToNearestUtility extends CardBase implements Card {
                 || currentPosition < BoardPosition.ElectricCompany) {
             nearestUtility = BoardPosition.ElectricCompany;
         }
-        this.advanceTo(board, playerToken, nearestUtility);
-
-        // TODO either buy or pay rolled dice * 10
-        // want to call landon, but need to always pay 10x
-        
-        // let boardSpace = board.getBoardSpace(nearestUtility);
-        // let owner = boardSpace.getOwner();
-        // let player = board.getPlayer(playerToken);
-        // if (owner === undefined) {
-        //     // attempt to buy the property
-        //     if (player.getBalance() >= boardSpace.purchasePrice) {
-        //         player.decreaseBalance(this.purchasePrice);
-        //         this.owner = player;
-        //     }
-        // } else if (this.owner.getToken() === player.getToken()) {
-        //     // landed on my own property, nothing happens
-        // } else if (this.mortgaged) {
-        //     // nothing happens if property is mortgaged
-        // } else if (this.owner !== undefined) {
-        //     // pay the property owner rent
-        //     let rent = player.getDiceValue() * 4;
-        //     if (this.board.getCountOwnedInGroup(this.group) == this.group.length) {
-        //         rent = player.getDiceValue() * 10;
-        //     }
-        //     player.decreaseBalance(rent);
-        //     this.owner.increaseBalance(rent);
-        // }
+        this.advanceTo(board, playerToken, nearestUtility, {"pay10x": true});
     }
 }

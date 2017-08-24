@@ -12,8 +12,5 @@ export class AdvanceToStCharlesPlace extends CardBase implements Card {
 
     play(board: Board, playerToken: PlayerToken, dice: Dice) {
         this.advanceTo(board, playerToken, BoardPosition.StCharlesPlace);
-        board.landOn(
-            board.getPlayer(playerToken), 
-            board.getPlayer(playerToken).getPosition());
     }
 }

@@ -35,7 +35,7 @@ export class PropertySpace implements BoardSpace {
      * if owned by another player, pay other player rent.  
      * rent will be double of other player owns all properties in the group.
      */
-    public landOn(player: Player) {
+    public landOn(player: Player, option?: any) {
         if (this.owner === undefined) {
             // attempt to buy the property
             if (player.getBalance() >= this.purchasePrice) {

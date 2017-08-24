@@ -13,8 +13,5 @@ export class AdvanceToIllinoisAve extends CardBase implements Card {
 
     play(board: Board, playerToken: PlayerToken, dice: Dice) {
         this.advanceTo(board, playerToken, BoardPosition.IllinoisAve);
-        board.landOn(
-            board.getPlayer(playerToken), 
-            board.getPlayer(playerToken).getPosition());
     }
 }

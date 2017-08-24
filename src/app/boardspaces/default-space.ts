@@ -24,6 +24,6 @@ export class DefaultSpace implements BoardSpace {
     }
 
     /** no affect */
-    public landOn(player: Player) {
+    public landOn(player: Player, option?: any) {
     }
 }

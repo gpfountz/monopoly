@@ -22,7 +22,7 @@ export class IncomeTax implements BoardSpace{
     }
 
     /** player pays 200 or 10% of their cash balance, whichever is less */
-    public landOn(player: Player) {
+    public landOn(player: Player, option?: any) {
         let decreaseBalance = Math.min(200, player.getBalance() * .1);
         player.decreaseBalance(decreaseBalance);
     }

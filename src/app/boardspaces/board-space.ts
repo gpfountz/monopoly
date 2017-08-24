@@ -8,7 +8,7 @@ export interface BoardSpace {
     getOwner(): Player;
 
     /** method to define what happens when a player lands on this space */
-    landOn(player: Player);
+    landOn(player: Player, option?: any);
 
     /** method to define what happens when a player passes over this space */
     passOver(player: Player);

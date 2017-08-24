@@ -23,7 +23,7 @@ export class Go implements BoardSpace {
     };
 
     /** player gets 200 for landing on go */
-    public landOn(player: Player) {
+    public landOn(player: Player, option?: any) {
         player.increaseBalance(200);
     }
 }

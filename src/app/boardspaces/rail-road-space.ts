@@ -32,7 +32,7 @@ export class RailRoadSpace implements BoardSpace {
      * if unowned, player will buy this railroad.
      * if owned by another player, pay other player 25,50,100,200 depending if other player owns 1,2,3,4 rail roads.
      */
-    public landOn(player: Player) {
+    public landOn(player: Player, option?: any) {
         if (this.owner === undefined) {
             // attempt to buy the property
             if (player.getBalance() >= this.purchasePrice) {
