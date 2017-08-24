@@ -139,7 +139,7 @@ export class Board {
 
     }
 
-    private getBoardSpace(position: BoardPosition): BoardSpace {
+    public getBoardSpace(position: BoardPosition): BoardSpace {
         let space: BoardSpace = this.boardSpaceMap.get(position);
         if (space === undefined) {
             space = new DefaultSpace(this);
