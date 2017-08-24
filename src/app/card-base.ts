@@ -11,8 +11,16 @@ export abstract class CardBase implements Card {
         this.name = name;
     }
 
-    abstract execute(board: Board, PlayerToken: PlayerToken, dice: Dice);
+    abstract play(board: Board, playerToken: PlayerToken, dice: Dice);
 
+    /**
+     * advance player to board position, setting the players position, but not 
+     * execute the board position land on method.
+     * 
+     * @param board 
+     * @param playerToken 
+     * @param position 
+     */
     protected advanceTo(board: Board, playerToken: PlayerToken, position: BoardPosition) {
         let player: Player = board.getPlayer(playerToken);
         let currentPosition: BoardPosition = player.getPosition();
@@ -23,6 +31,5 @@ export abstract class CardBase implements Card {
         };
         // reached target position
         player.setPosition(position);
-        board.landOn(player, position);
     }
 }

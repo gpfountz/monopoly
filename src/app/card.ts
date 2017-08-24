@@ -6,5 +6,5 @@ export interface Card {
 
     name: string;
 
-    execute(board: Board, player: PlayerToken, dice: Dice);
+    play(board: Board, player: PlayerToken, dice: Dice);
 }
