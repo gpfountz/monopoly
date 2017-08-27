@@ -1,7 +1,6 @@
 import { Player } from 'app/player';
 import { BoardPosition } from 'app/board-positions.enum';
 import { Dice } from 'app/dice';
-import { PlayerToken } from 'app/player-tokens.enum';
 import { Board } from 'app/board';
 import { Card } from './card';
 export abstract class CardBase implements Card {
@@ -11,7 +10,7 @@ export abstract class CardBase implements Card {
         this.name = name;
     }
 
-    abstract play(board: Board, playerToken: PlayerToken, dice: Dice);
+    abstract play(board: Board, player: Player);
 
     /**
      * advance player to board position, setting the players position
@@ -20,8 +19,7 @@ export abstract class CardBase implements Card {
      * @param playerToken 
      * @param position 
      */
-    protected advanceTo(board: Board, playerToken: PlayerToken, position: BoardPosition, option?: any) {
-        let player: Player = board.getPlayer(playerToken);
+    protected advanceTo(board: Board, player: Player, position: BoardPosition, option?: any) {
         let currentPosition: BoardPosition = player.getPosition();
         while (currentPosition != position) {
             // move forward one position and landon
@@ -30,6 +28,6 @@ export abstract class CardBase implements Card {
         };
         // reached target position
         player.setPosition(currentPosition);
-        board.landOn(board.getPlayer(playerToken), currentPosition, option);
+        board.landOn(player, currentPosition, option);
     }
 }

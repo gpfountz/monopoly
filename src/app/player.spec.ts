@@ -3,6 +3,9 @@ import { Player } from "app/player";
 import { PlayerToken } from "app/player-tokens.enum";
 import { FakeDice } from "app/fake-dice";
 import { Board } from "app/board";
+import { FakeChanceCardDeck } from "app/chancecards/fake-chance-card-deck";
+import { NullCard } from "app/null-card";
+import { AdvanceToGo } from "app/chancecards/advance-to-go";
 
 describe('Player Movements', () => {
     let board: Board;
@@ -13,7 +16,7 @@ describe('Player Movements', () => {
     });
 
     beforeEach(() => {
-        board = new Board(Player[0]);
+        board = new Board(Player[0], new FakeChanceCardDeck([new NullCard()]));
         player.reset();
     });
 
@@ -161,7 +164,7 @@ describe('Release 3 Player Buys Property', () => {
     });
 
     beforeEach(() => {
-        board = new Board(Player[0]);
+        board = new Board(Player[0], new FakeChanceCardDeck([new NullCard()]));
         player.reset();
     });
 
@@ -199,7 +202,7 @@ describe('Release 3 Player Pays Rent', () => {
     });
 
     beforeEach(() => {
-        board = new Board(Player[0]);
+        board = new Board(Player[0], new FakeChanceCardDeck([new NullCard()]));
         player.reset();
     });
 
@@ -321,7 +324,7 @@ describe('Release 4: Landing on goto jail.', () => {
     });
 
     beforeEach(() => {
-        board = new Board(Player[0]);
+        board = new Board(Player[0], new FakeChanceCardDeck([new NullCard()]));
         player.reset();
     });
 
@@ -359,7 +362,7 @@ describe('Release 4: Rolling Doubles 3x.', () => {
     });
 
     beforeEach(() => {
-        board = new Board(Player[0]);
+        board = new Board(Player[0], new FakeChanceCardDeck([new NullCard()]));
         player.reset();
     });
 
@@ -400,7 +403,7 @@ describe('Release 4: Pay to Get Out of Jail', () => {
     });
 
     beforeEach(() => {
-        board = new Board(Player[0]);
+        board = new Board(Player[0], new FakeChanceCardDeck([new NullCard()]));
         player.reset();
     });
 
@@ -433,7 +436,7 @@ describe('Release 4 Roll Doubles to Get Out of Jail.', () => {
     });
 
     beforeEach(() => {
-        board = new Board(Player[0]);
+        board = new Board(Player[0], new FakeChanceCardDeck([new NullCard()]));
         player.reset();
     });
 
@@ -485,4 +488,26 @@ describe('Release 4 Roll Doubles to Get Out of Jail.', () => {
         expect(player.getBalance()).toEqual(balance - 50 - 200); // 50 to get out of jail, 200 to buy railroad
     });
 
+});
+
+describe('Release 5 Player Lands On Community Chest or Chance', () => {
+    let board: Board;
+    let player: Player;
+
+    beforeAll(() => {
+        player = new Player(PlayerToken.topHat);
+    });
+
+    beforeEach(() => {
+        board = new Board(Player[0], new FakeChanceCardDeck([new NullCard()]));
+        player.reset();
+    });
+
+    it('Player passes over Community Chest, nothing happens.', () => {
+        board = new Board(Player[0], new FakeChanceCardDeck([new AdvanceToGo()]));
+        player.setPosition(BoardPosition.CommunityChest - 3);
+        let beginningBalance: number = player.getBalance();
+        expect(player.move(board, new FakeDice([3,2]))).toEqual(BoardPosition.CommunityChest + 2);
+        expect(player.getBalance()).toEqual(beginningBalance - 200); // decreased 200 for buying Shortline RR
+    });
 });

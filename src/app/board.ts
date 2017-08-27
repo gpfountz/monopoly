@@ -13,6 +13,7 @@ import { RailRoadSpace } from "app/boardspaces/rail-road-space";
 import { PropertySpace } from "app/boardspaces/property-space";
 import { UtilitySpace } from "app/boardspaces/utility-space";
 import { Jailhouse } from "app/jailhouse";
+import { ChanceSpace } from "app/boardspaces/chance-space";
 
 export class Board {
     private players: Player[];
@@ -20,8 +21,9 @@ export class Board {
     private jailhouse: Jailhouse;
     private chanceCards: CardDeck;
 
-    constructor(players: Player[]) {
+    constructor(players: Player[], chanceCards: ChanceCardDeck) {
         this.players = players;
+        this.chanceCards = chanceCards;
 
         this.boardSpaceMap.set(BoardPosition.Go, new Go(this));
 
@@ -41,7 +43,8 @@ export class Board {
         this.boardSpaceMap.set(BoardPosition.OrientalAve, new PropertySpace(
             this, [BoardPosition.VermontAve, BoardPosition.ConnecticutAve], 100, 6));
 
-        //this.boardSpaceMap.set(BoardPosition.Chance1, new Chance1(this));
+        this.boardSpaceMap.set(BoardPosition.Chance1, new ChanceSpace(
+            this, BoardPosition.Chance1));
 
         this.boardSpaceMap.set(BoardPosition.VermontAve, new PropertySpace(
             this, [BoardPosition.OrientalAve, BoardPosition.ConnecticutAve], 100, 6));
@@ -84,7 +87,8 @@ export class Board {
         this.boardSpaceMap.set(BoardPosition.KentuckyAve, new PropertySpace(
             this, [BoardPosition.IllinoisAve, BoardPosition.IndianaAve], 220, 18));
 
-        //this.boardSpaceMap.set(BoardPosition.Chance2, new Chance(this));
+        this.boardSpaceMap.set(BoardPosition.Chance2, new ChanceSpace(
+            this, BoardPosition.Chance2));
 
         this.boardSpaceMap.set(BoardPosition.IndianaAve, new PropertySpace(
             this, [BoardPosition.IllinoisAve, BoardPosition.KentuckyAve], 220, 18));
@@ -123,7 +127,8 @@ export class Board {
         this.boardSpaceMap.set(BoardPosition.ShortLine, new RailRoadSpace(
             this, [BoardPosition.PennsylvaniaRailroad, BoardPosition.ReadingRailroad, BoardPosition.BandORailroad]));
 
-        //this.boardSpaceMap.set(BoardPosition.Chance, new Chance(this));
+        this.boardSpaceMap.set(BoardPosition.Chance, new ChanceSpace(
+            this, BoardPosition.Chance));
 
         this.boardSpaceMap.set(BoardPosition.ParkPlace, new PropertySpace(
             this, [BoardPosition.Boardwalk], 350, 35));
@@ -135,8 +140,6 @@ export class Board {
 
         this.jailhouse = new Jailhouse();
 
-        this.chanceCards = new ChanceCardDeck();
-
     }
 
     public getBoardSpace(position: BoardPosition): BoardSpace {
@@ -145,6 +148,10 @@ export class Board {
             space = new DefaultSpace(this);
         }
         return space;
+    }
+
+    public getChanceCards(): CardDeck {
+        return this.chanceCards;
     }
 
     public getPlayers(): Player[] {
