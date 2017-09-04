@@ -16,6 +16,13 @@ export abstract class CardDeck {
         return card;
     }
 
+    /**
+     * returns the name of the bottom card in deck
+     */
+    public peekBottomCard(): string {
+        return this.cards[this.cards.length - 1].name;
+    }
+
     /** The de-facto unbiased shuffle algorithm is the Fisher-Yates (aka Knuth) Shuffle */
     private shuffle(array) {
         let currentIndex = array.length, temporaryValue, randomIndex;

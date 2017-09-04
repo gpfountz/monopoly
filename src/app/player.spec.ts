@@ -6,6 +6,8 @@ import { Board } from "app/board";
 import { FakeChanceCardDeck } from "app/chancecards/fake-chance-card-deck";
 import { NullCard } from "app/null-card";
 import { AdvanceToGo } from "app/chancecards/advance-to-go";
+import { BankErrorInYourFavor } from "app/communitychestcards/bank-error-in-your-favor";
+import { GetOutOfJailFree } from "app/communitychestcards/get-out-of-jail-free";
 
 describe('Player Movements', () => {
     let board: Board;
@@ -16,7 +18,8 @@ describe('Player Movements', () => {
     });
 
     beforeEach(() => {
-        board = new Board(Player[0], new FakeChanceCardDeck([new NullCard()]));
+        board = new Board(Player[0], new FakeChanceCardDeck([new NullCard()]),
+        new FakeChanceCardDeck([new NullCard()]));
         player.reset();
     });
 
@@ -164,7 +167,8 @@ describe('Release 3 Player Buys Property', () => {
     });
 
     beforeEach(() => {
-        board = new Board(Player[0], new FakeChanceCardDeck([new NullCard()]));
+        board = new Board(Player[0], new FakeChanceCardDeck([new NullCard()]),
+        new FakeChanceCardDeck([new NullCard()]));
         player.reset();
     });
 
@@ -202,7 +206,8 @@ describe('Release 3 Player Pays Rent', () => {
     });
 
     beforeEach(() => {
-        board = new Board(Player[0], new FakeChanceCardDeck([new NullCard()]));
+        board = new Board(Player[0], new FakeChanceCardDeck([new NullCard()]),
+        new FakeChanceCardDeck([new NullCard()]));
         player.reset();
     });
 
@@ -324,7 +329,8 @@ describe('Release 4: Landing on goto jail.', () => {
     });
 
     beforeEach(() => {
-        board = new Board(Player[0], new FakeChanceCardDeck([new NullCard()]));
+        board = new Board(Player[0], new FakeChanceCardDeck([new NullCard()]),
+        new FakeChanceCardDeck([new NullCard()]));
         player.reset();
     });
 
@@ -362,7 +368,8 @@ describe('Release 4: Rolling Doubles 3x.', () => {
     });
 
     beforeEach(() => {
-        board = new Board(Player[0], new FakeChanceCardDeck([new NullCard()]));
+        board = new Board(Player[0], new FakeChanceCardDeck([new NullCard()]),
+        new FakeChanceCardDeck([new NullCard()]));
         player.reset();
     });
 
@@ -403,7 +410,8 @@ describe('Release 4: Pay to Get Out of Jail', () => {
     });
 
     beforeEach(() => {
-        board = new Board(Player[0], new FakeChanceCardDeck([new NullCard()]));
+        board = new Board(Player[0], new FakeChanceCardDeck([new NullCard()]),
+        new FakeChanceCardDeck([new NullCard()]));
         player.reset();
     });
 
@@ -436,7 +444,8 @@ describe('Release 4 Roll Doubles to Get Out of Jail.', () => {
     });
 
     beforeEach(() => {
-        board = new Board(Player[0], new FakeChanceCardDeck([new NullCard()]));
+        board = new Board(Player[0], new FakeChanceCardDeck([new NullCard()]),
+        new FakeChanceCardDeck([new NullCard()]));
         player.reset();
     });
 
@@ -499,15 +508,59 @@ describe('Release 5 Player Lands On Community Chest or Chance', () => {
     });
 
     beforeEach(() => {
-        board = new Board(Player[0], new FakeChanceCardDeck([new NullCard()]));
+        board = new Board(Player[0], new FakeChanceCardDeck([new NullCard()]),
+        new FakeChanceCardDeck([new NullCard()]));
         player.reset();
     });
 
     it('Player passes over Community Chest, nothing happens.', () => {
-        board = new Board(Player[0], new FakeChanceCardDeck([new AdvanceToGo()]));
+        board = new Board(Player[0], new FakeChanceCardDeck([new AdvanceToGo()]),
+        new FakeChanceCardDeck([new NullCard()]));
         player.setPosition(BoardPosition.CommunityChest - 3);
         let beginningBalance: number = player.getBalance();
         expect(player.move(board, new FakeDice([3,2]))).toEqual(BoardPosition.CommunityChest + 2);
         expect(player.getBalance()).toEqual(beginningBalance - 200); // decreased 200 for buying Shortline RR
+    });
+
+    it('Player lands on Community Chest not rolling doubles. Player plays card. Cards effect happens. Card at bottom of stack of cards.', () => {
+        board = new Board(Player[0], new FakeChanceCardDeck([new AdvanceToGo()]),
+        new FakeChanceCardDeck([new BankErrorInYourFavor]));
+        let beginningBalance: number = player.getBalance();
+        player.setPosition(BoardPosition.CommunityChest - 3);
+        expect(player.move(board, new FakeDice([1,2]))).toEqual(BoardPosition.CommunityChest);
+        expect(player.getBalance()).toEqual(beginningBalance + 200);
+        expect(board.getCommunityChestCards().peekBottomCard()).toEqual("Bank error in yourn favor");
+    });
+
+    it('Player lands on Community Chest rolling doubles. Player plays card. Cards effect happens. Card at bottom of stack of cards', () => {
+        board = new Board(Player[0], new FakeChanceCardDeck([new AdvanceToGo()]),
+        new FakeChanceCardDeck([new BankErrorInYourFavor]));
+        let beginningBalance: number = player.getBalance();
+        player.setPosition(BoardPosition.CommunityChest - 4);
+        expect(player.move(board, new FakeDice([2,2,3,2]))).toEqual(BoardPosition.LuxuryTax);
+        expect(player.getBalance()).toEqual(beginningBalance + 200 - 75); // minus luxury tax of boardwalk
+        expect(board.getCommunityChestCards().peekBottomCard()).toEqual("Bank error in yourn favor");
+    });
+
+    it('Player continues rolling if it was roll 1/2 and they did not get the Go To Jail card.', () => {
+        board = new Board(Player[0], new FakeChanceCardDeck([new AdvanceToGo()]),
+        new FakeChanceCardDeck([new BankErrorInYourFavor]));
+        let beginningBalance: number = player.getBalance();
+        player.setPosition(BoardPosition.CommunityChest - 4);
+        expect(player.move(board, new FakeDice([2,2,3,2]))).toEqual(BoardPosition.LuxuryTax);
+        expect(player.getBalance()).toEqual(beginningBalance + 200 - 75); // minus luxury tax of boardwalk
+        expect(board.getCommunityChestCards().peekBottomCard()).toEqual("Bank error in yourn favor");
+        expect(player.hasGetOutOfJailFreeCard()).toBeFalsy();
+    });
+
+    it('Player does not continue rolling if it was roll 1/2 and they did get the Go To Jail card', () => {
+        board = new Board(Player[0], new FakeChanceCardDeck([new AdvanceToGo()]),
+        new FakeChanceCardDeck([new GetOutOfJailFree]));
+        let beginningBalance: number = player.getBalance();
+        player.setPosition(BoardPosition.CommunityChest - 4);
+        expect(player.move(board, new FakeDice([2,2,3,2]))).toEqual(BoardPosition.LuxuryTax);
+        expect(player.getBalance()).toEqual(beginningBalance - 75); // minus luxury tax of boardwalk
+        expect(board.getCommunityChestCards().peekBottomCard()).toEqual("Get Out of Jail Free");
+        expect(player.hasGetOutOfJailFreeCard()).toBeTruthy();
     });
 });

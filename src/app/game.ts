@@ -4,6 +4,7 @@ import { RealDice } from "app/real-dice";
 import { Dice } from "app/dice";
 import { PlayerToken } from "app/player-tokens.enum";
 import { ChanceCardDeck } from "app/chancecards/chance-card-deck";
+import { CommunityChestCardDeck } from "app/communitychestcards/community-chest-card-deck";
 
 export class Game {
     public static PLAYER_MIN_MAX_ERROR: string = 'must have 2 to 8 players to play Monopoly';
@@ -21,7 +22,7 @@ export class Game {
             players.push(new Player(playerToken));
         }
         this.shuffle(players);
-        this.board = new Board(players, new ChanceCardDeck());
+        this.board = new Board(players, new ChanceCardDeck(), new CommunityChestCardDeck);
     }
 
     public getBoard(): Board {

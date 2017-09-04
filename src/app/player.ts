@@ -11,15 +11,32 @@ export class Player {
     private moveCount: number;
     private balance: number;
     private diceValue: number;
+    private chanceGetOutOfJailFreeCard: boolean;
+    private communityChestGetOutJailFreeCard: boolean;
 
     constructor(token: PlayerToken) {
         this.token = token;
         this.reset();
     }
 
+    public addChanceGetOutOfJailFreeCard(): void {
+        this.chanceGetOutOfJailFreeCard = true;
+    }
+
+    public addCommunityChestGetOutOfJailFreeCard(): void {
+        this.communityChestGetOutJailFreeCard = true;
+    }
+
     /** decreases the players cash balance by the amount */
     public decreaseBalance(amount: number) {
         this.balance -= amount;
+    }
+
+    public hasGetOutOfJailFreeCard(): boolean {
+        if (this.chanceGetOutOfJailFreeCard == true
+            || this.communityChestGetOutJailFreeCard == true) {
+            return true;
+        }
     }
 
     public move(board: Board, dice: Dice): BoardPosition {
@@ -41,12 +58,12 @@ export class Player {
         this.diceValue = dice.roll();
         board.getJailhouse().incrementInmateMoveCount(this.getToken());
         if (dice.isDouble()) {
-            board.getJailhouse().removeInmate(this.getToken());    
+            board.getJailhouse().removeInmate(this.getToken());
         } else if (board.getJailhouse().getInmateMoveCount(this.getToken()) == 3) {
             this.decreaseBalance(50); // pay to get out of jail
-            board.getJailhouse().removeInmate(this.getToken());    
+            board.getJailhouse().removeInmate(this.getToken());
         }
-        if (board.getJailhouse().isInJail(this.getToken()) == false) { 
+        if (board.getJailhouse().isInJail(this.getToken()) == false) {
             // player is no longer in jail, move dice value and turn is over
             let previousPosition = this.position;
             this.position = (this.position + this.diceValue) % 40;
@@ -83,9 +100,11 @@ export class Player {
                 board.passOver(this, (previousPosition + i) % 40);
             }
             //console.log("player's balance prior to landOn" + this.balance);
+            //console.log("players position (before): " + this.getPosition());
             board.landOn(this, this.position);
             //console.log("player's balance after to landOn" + this.balance);
-        } while (dice.isDouble() &&  board.getJailhouse().isInJail(this.getToken()) == false);
+            //console.log("players position: (after)" + this.getPosition());
+        } while (dice.isDouble() && board.getJailhouse().isInJail(this.getToken()) == false);
         return this.position;
     }
 
@@ -148,6 +167,19 @@ export class Player {
         this.position = BoardPosition.Go;
         this.moveCount = 0;
         this.balance = 2000;
+        this.chanceGetOutOfJailFreeCard = false;
+        this.communityChestGetOutJailFreeCard = false;
     }
 
+    public useGetOutOfJailFreeCard(board: Board): void {
+        if (board.getJailhouse().isInJail(this.token)
+            && this.hasGetOutOfJailFreeCard()) {
+            if (this.chanceGetOutOfJailFreeCard == true) {
+                this.chanceGetOutOfJailFreeCard = false;
+            } else if (this.communityChestGetOutJailFreeCard == true) {
+                this.communityChestGetOutJailFreeCard = false;
+            }
+            board.getJailhouse().removeInmate(this.token);
+        }
+    }
 }

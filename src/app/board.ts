@@ -14,23 +14,29 @@ import { PropertySpace } from "app/boardspaces/property-space";
 import { UtilitySpace } from "app/boardspaces/utility-space";
 import { Jailhouse } from "app/jailhouse";
 import { ChanceSpace } from "app/boardspaces/chance-space";
+import { CommunityChestCardDeck } from "app/communitychestcards/community-chest-card-deck";
+import { CommunityChestSpace } from "app/boardspaces/community-chest-space";
 
 export class Board {
     private players: Player[];
     private boardSpaceMap: Map<BoardPosition, BoardSpace> = new Map<BoardPosition, BoardSpace>();
     private jailhouse: Jailhouse;
     private chanceCards: CardDeck;
+    private communityChestCards: CardDeck;
 
-    constructor(players: Player[], chanceCards: ChanceCardDeck) {
+    constructor(players: Player[], chanceCards: ChanceCardDeck,
+            communityChestCards: CommunityChestCardDeck) {
         this.players = players;
         this.chanceCards = chanceCards;
+        this.communityChestCards = communityChestCards;
 
         this.boardSpaceMap.set(BoardPosition.Go, new Go(this));
 
         this.boardSpaceMap.set(BoardPosition.MediteranianAve, new PropertySpace(
             this, [BoardPosition.BalticAve], 60, 2));
 
-        //this.boardSpaceMap.set(BoardPosition.CommunityChest1, new CommunityChest(this));
+        this.boardSpaceMap.set(BoardPosition.CommunityChest1, new CommunityChestSpace(
+            this, BoardPosition.CommunityChest1));
 
         this.boardSpaceMap.set(BoardPosition.BalticAve, new PropertySpace(
             this, [BoardPosition.MediteranianAve], 60, 4));
@@ -74,7 +80,8 @@ export class Board {
         this.boardSpaceMap.set(BoardPosition.StJamesPlace, new PropertySpace(
             this, [BoardPosition.TennesseeAve, BoardPosition.NewYorkAve], 180, 14));
 
-        //this.boardSpaceMap.set(BoardPosition.CommunityChest2, new CommunityChest(this));
+        this.boardSpaceMap.set(BoardPosition.CommunityChest2, new CommunityChestSpace(
+            this, BoardPosition.CommunityChest2));
 
         this.boardSpaceMap.set(BoardPosition.TennesseeAve, new PropertySpace(
             this, [BoardPosition.StJamesPlace, BoardPosition.NewYorkAve], 180, 14));
@@ -119,7 +126,8 @@ export class Board {
         this.boardSpaceMap.set(BoardPosition.NorthCarolinaAve, new PropertySpace(
             this, [BoardPosition.PacificAve, BoardPosition.PennsylvaniaAve], 300, 26));
 
-        //this.boardSpaceMap.set(BoardPosition.CommunityChest, new CommunityChest(this));
+        this.boardSpaceMap.set(BoardPosition.CommunityChest, new CommunityChestSpace(
+            this, BoardPosition.CommunityChest));
 
         this.boardSpaceMap.set(BoardPosition.PennsylvaniaAve, new PropertySpace(
             this, [BoardPosition.PacificAve, BoardPosition.NorthCarolinaAve], 320, 28));
@@ -152,6 +160,10 @@ export class Board {
 
     public getChanceCards(): CardDeck {
         return this.chanceCards;
+    }
+
+    public getCommunityChestCards(): CardDeck {
+        return this.communityChestCards;
     }
 
     public getPlayers(): Player[] {
