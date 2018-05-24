@@ -1,5 +1,4 @@
-# Monopoly - testing 1234 - TestBranch1
-# Monopoly - testing 1234 - TestBranch2
+# Monopoly
 
 This project was generated with [angular-cli](https://github.com/angular/angular-cli) version 1.0.0-beta.28.3.
 
