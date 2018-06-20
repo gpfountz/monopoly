@@ -4,6 +4,7 @@ This project was generated with [angular-cli](https://github.com/angular/angular
 
 ## Development server
 Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+#test 1
 
 ## Code scaffolding
 
@@ -34,4 +35,5 @@ https://schuchert.wikispaces.com/Monopoly(r)
 
 http://monopoly.wikia.com/wiki/List_of_Monopoly_Properties
 
+test 1
 test2
