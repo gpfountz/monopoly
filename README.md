@@ -34,5 +34,3 @@ To get more help on the `angular-cli` use `ng help` or go check out the [Angular
 https://schuchert.wikispaces.com/Monopoly(r)
 
 http://monopoly.wikia.com/wiki/List_of_Monopoly_Properties
-
-this is a test
