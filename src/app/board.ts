@@ -38,8 +38,8 @@ export class Board {
         this.boardSpaceMap.set(BoardPosition.CommunityChest1, new CommunityChestSpace(
             this, BoardPosition.CommunityChest1));
 
-         this.boardSpaceMap.set(BoardPosition.BalticAve, new PropertySpace(
-             this, [BoardPosition.MediteranianAve], 60, 4));
+         //this.boardSpaceMap.set(BoardPosition.BalticAve, new PropertySpace(
+         //    this, [BoardPosition.MediteranianAve], 60, 4));
 
         this.boardSpaceMap.set(BoardPosition.IncomeTax, new IncomeTax(this));
 
