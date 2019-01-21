@@ -32,8 +32,8 @@ export class Board {
 
         this.boardSpaceMap.set(BoardPosition.Go, new Go(this));
 
-         this.boardSpaceMap.set(BoardPosition.MediteranianAve, new PropertySpace(
-             this, [BoardPosition.BalticAve], 60, 2));
+         //this.boardSpaceMap.set(BoardPosition.MediteranianAve, new PropertySpace(
+         //    this, [BoardPosition.BalticAve], 60, 2));
 
         this.boardSpaceMap.set(BoardPosition.CommunityChest1, new CommunityChestSpace(
             this, BoardPosition.CommunityChest1));
