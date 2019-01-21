@@ -32,19 +32,19 @@ export class Board {
 
         this.boardSpaceMap.set(BoardPosition.Go, new Go(this));
 
-         //this.boardSpaceMap.set(BoardPosition.MediteranianAve, new PropertySpace(
-         //    this, [BoardPosition.BalticAve], 60, 2));
+         this.boardSpaceMap.set(BoardPosition.MediteranianAve, new PropertySpace(
+             this, [BoardPosition.BalticAve], 60, 2));
 
         this.boardSpaceMap.set(BoardPosition.CommunityChest1, new CommunityChestSpace(
             this, BoardPosition.CommunityChest1));
 
-         //this.boardSpaceMap.set(BoardPosition.BalticAve, new PropertySpace(
-         //    this, [BoardPosition.MediteranianAve], 60, 4));
+         this.boardSpaceMap.set(BoardPosition.BalticAve, new PropertySpace(
+             this, [BoardPosition.MediteranianAve], 60, 4));
 
-        //this.boardSpaceMap.set(BoardPosition.IncomeTax, new IncomeTax(this));
+        this.boardSpaceMap.set(BoardPosition.IncomeTax, new IncomeTax(this));
 
-        //this.boardSpaceMap.set(BoardPosition.ReadingRailroad, new RailRoadSpace(
-        //    this, [BoardPosition.PennsylvaniaRailroad, BoardPosition.BandORailroad, BoardPosition.ShortLine]));
+        this.boardSpaceMap.set(BoardPosition.ReadingRailroad, new RailRoadSpace(
+            this, [BoardPosition.PennsylvaniaRailroad, BoardPosition.BandORailroad, BoardPosition.ShortLine]));
 
         this.boardSpaceMap.set(BoardPosition.OrientalAve, new PropertySpace(
             this, [BoardPosition.VermontAve, BoardPosition.ConnecticutAve], 100, 6));
@@ -55,8 +55,8 @@ export class Board {
         this.boardSpaceMap.set(BoardPosition.VermontAve, new PropertySpace(
             this, [BoardPosition.OrientalAve, BoardPosition.ConnecticutAve], 100, 6));
 
-        this.boardSpaceMap.set(BoardPosition.ConnecticutAve, new PropertySpace(
-            this, [BoardPosition.OrientalAve, BoardPosition.VermontAve], 120, 8));
+        //this.boardSpaceMap.set(BoardPosition.ConnecticutAve, new PropertySpace(
+        //    this, [BoardPosition.OrientalAve, BoardPosition.VermontAve], 120, 8));
 
         //this.boardSpaceMap.set(BoardPosition.Jail, new Jail(this));
 
