@@ -55,8 +55,8 @@ export class Board {
         this.boardSpaceMap.set(BoardPosition.VermontAve, new PropertySpace(
             this, [BoardPosition.OrientalAve, BoardPosition.ConnecticutAve], 100, 6));
 
-        //this.boardSpaceMap.set(BoardPosition.ConnecticutAve, new PropertySpace(
-        //    this, [BoardPosition.OrientalAve, BoardPosition.VermontAve], 120, 8));
+        this.boardSpaceMap.set(BoardPosition.ConnecticutAve, new PropertySpace(
+            this, [BoardPosition.OrientalAve, BoardPosition.VermontAve], 120, 8));
 
         //this.boardSpaceMap.set(BoardPosition.Jail, new Jail(this));
 
