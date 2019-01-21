@@ -41,7 +41,7 @@ export class Board {
          this.boardSpaceMap.set(BoardPosition.BalticAve, new PropertySpace(
              this, [BoardPosition.MediteranianAve], 60, 4));
 
-        this.boardSpaceMap.set(BoardPosition.IncomeTax, new IncomeTax(this));
+        //this.boardSpaceMap.set(BoardPosition.IncomeTax, new IncomeTax(this));
 
         this.boardSpaceMap.set(BoardPosition.ReadingRailroad, new RailRoadSpace(
             this, [BoardPosition.PennsylvaniaRailroad, BoardPosition.BandORailroad, BoardPosition.ShortLine]));
