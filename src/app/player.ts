@@ -140,7 +140,7 @@ export class Player {
 
     public payToGetOutOfJail(board: Board) {
         if (board.getJailhouse().isInJail(this.getToken())) {
-            this.balance -= 50;
+            this.balance -= 100;
             board.getJailhouse().removeInmate(this.getToken());
         }
     }
