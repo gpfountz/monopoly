@@ -60,7 +60,7 @@ export class Player {
         if (dice.isDouble()) {
             board.getJailhouse().removeInmate(this.getToken());
         } else if (board.getJailhouse().getInmateMoveCount(this.getToken()) == 3) {
-            this.decreaseBalance(50); // pay to get out of jail
+            this.decreaseBalance(100); // pay to get out of jail
             board.getJailhouse().removeInmate(this.getToken());
         }
         if (board.getJailhouse().isInJail(this.getToken()) == false) {
