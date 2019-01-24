@@ -3,7 +3,7 @@ import { BoardPosition } from "app/board-positions.enum";
 import { PlayerToken } from "app/player-tokens.enum";
 import { Dice } from "app/dice";
 
-const player_max_double_move_count: number = 3;
+const player_max_double_move_count: number = 4;
 
 export class Player {
     private token: PlayerToken;
