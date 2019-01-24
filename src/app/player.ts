@@ -87,7 +87,7 @@ export class Player {
         do {
             doubleMoveCount++;
             this.diceValue = dice.roll();
-            if (dice.isDouble() && doubleMoveCount >= 3) {
+            if (dice.isDouble() && doubleMoveCount >= 4) {
                 // roll 3 doubles and go directly to jail
                 //console.log("player rolled 3 doubles and goes to jail");
                 this.setPosition(BoardPosition.Jail);
