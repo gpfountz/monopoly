@@ -166,7 +166,7 @@ export class Player {
     public reset() {
         this.position = BoardPosition.Go;
         this.moveCount = 0;
-        this.balance = 2000;
+        this.balance = 5000;
         this.chanceGetOutOfJailFreeCard = false;
         this.communityChestGetOutJailFreeCard = false;
     }
